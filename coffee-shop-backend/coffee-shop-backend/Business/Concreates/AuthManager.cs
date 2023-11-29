@@ -17,7 +17,7 @@ public class AuthManager: IAuthServices
         _jwtServices = jwtServices;
     }
 
-    public ActionResult UserLogin(LoginRequest request)
+    public IActionResult UserLogin(LoginRequest request)
     {
         User? user = (from u in _coffeeShopContex.Users
             where u.Email == request.Email && u.Password == request.Password
@@ -31,7 +31,7 @@ public class AuthManager: IAuthServices
         return new OkObjectResult(new {token});
     }
 
-    public ActionResult Auth(string token)
+    public IActionResult Auth(string token)
     {
         if (token == null)
         {

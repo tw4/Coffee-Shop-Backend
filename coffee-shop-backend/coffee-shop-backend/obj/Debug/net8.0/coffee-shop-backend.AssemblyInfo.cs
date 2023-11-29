@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("coffee-shop-backend")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7c787f4bf81039ef29060c446a793543d0b27c0f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6303dcb756c997e868b2d692fce06ef6edbd6437")]
 [assembly: System.Reflection.AssemblyProductAttribute("coffee-shop-backend")]
 [assembly: System.Reflection.AssemblyTitleAttribute("coffee-shop-backend")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

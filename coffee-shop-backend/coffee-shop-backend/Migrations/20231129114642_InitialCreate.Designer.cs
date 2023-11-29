@@ -11,8 +11,8 @@ using coffee_shop_backend.Contexs;
 namespace coffee_shop_backend.Migrations
 {
     [DbContext(typeof(CoffeeShopContex))]
-    [Migration("20231128160023_InitialCreat")]
-    partial class InitialCreat
+    [Migration("20231129114642_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,6 +119,9 @@ namespace coffee_shop_backend.Migrations
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Surname")
                         .IsRequired()

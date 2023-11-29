@@ -5,7 +5,7 @@ namespace coffee_shop_backend.Business.Abstracts;
 
 public interface IAuthServices
 {
-    public ActionResult UserLogin(LoginRequest request);
-    public ActionResult Auth(string token);
+    public IActionResult UserLogin(LoginRequest request);
+    public IActionResult Auth(string token);
 
 }

@@ -117,6 +117,9 @@ namespace coffee_shop_backend.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Role")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Surname")
                         .IsRequired()
                         .HasColumnType("text");

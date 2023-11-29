@@ -22,7 +22,7 @@ builder.Services.AddSwaggerGen();
 // Add scoped services
 builder.Services.AddScoped<IJwtServices, JwtManager>();
 builder.Services.AddScoped<IAuthServices, AuthManager>();
-
+builder.Services.AddScoped<IUserServices, UserManager>();
 
 var app = builder.Build();
 
