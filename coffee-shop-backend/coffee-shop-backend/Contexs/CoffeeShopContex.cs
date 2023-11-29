@@ -5,6 +5,8 @@ namespace coffee_shop_backend.Contexs;
 
 public class CoffeeShopContex : DbContext
 {
+    private readonly IConfiguration _configuration;
+
    public DbSet<User> Users { get; set; }
    public DbSet<Product> Products { get; set; }
    public DbSet<Stock> Stocks { get; set; }

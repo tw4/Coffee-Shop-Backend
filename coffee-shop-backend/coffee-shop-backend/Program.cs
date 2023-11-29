@@ -1,5 +1,11 @@
+using System.Text;
+using coffee_shop_backend.Business.Abstracts;
+using coffee_shop_backend.Business.Concreates;
 using coffee_shop_backend.Contexs;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +19,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-ConfigurationBuilder configurationBuilder = new();
+// Add scoped services
+builder.Services.AddScoped<IJwtServices, JwtManager>();
+builder.Services.AddScoped<IAuthServices, AuthManager>();
+
 
 var app = builder.Build();
 
@@ -22,9 +31,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    configurationBuilder.AddJsonFile("appsettings_Development.json", false, true);
 }
-
 
 app.MapControllers();
 app.Run();
