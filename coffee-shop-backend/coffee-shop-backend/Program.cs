@@ -25,6 +25,7 @@ builder.Services.AddScoped<IAuthServices, AuthManager>();
 builder.Services.AddScoped<IUserServices, UserManager>();
 builder.Services.AddScoped<IProductServices, ProductManager>();
 builder.Services.AddScoped<IStockServices, StockManager>();
+builder.Services.AddScoped<IOrderServices, OrderManager>();
 
 var app = builder.Build();
 
