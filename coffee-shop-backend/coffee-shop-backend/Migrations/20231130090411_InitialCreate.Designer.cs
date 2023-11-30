@@ -11,7 +11,7 @@ using coffee_shop_backend.Contexs;
 namespace coffee_shop_backend.Migrations
 {
     [DbContext(typeof(CoffeeShopContex))]
-    [Migration("20231129114642_InitialCreate")]
+    [Migration("20231130090411_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

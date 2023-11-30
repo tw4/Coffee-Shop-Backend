@@ -3,6 +3,7 @@ using coffee_shop_backend.Contexs;
 using coffee_shop_backend.Dto.Product;
 using coffee_shop_backend.Entitys.Concreates;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace coffee_shop_backend.Business.Concreates;
 
@@ -30,7 +31,6 @@ public class ProductManager: IProductServices
         };
         _coffeeShopContex.Products.Add(product);
 
-
         try
         {
             _coffeeShopContex.SaveChanges();
@@ -49,12 +49,25 @@ public class ProductManager: IProductServices
             return new UnauthorizedResult();
         }
 
-        Product? product = _coffeeShopContex.Products.Find(id);
-        if (product == null)
+        var productWithStock = _coffeeShopContex.Products
+            .Include(p => p.Stock)
+            .Where(p => p.Id == id)
+            .Select(p => new
+            {
+                p.Id,
+                p.Name,
+                p.Price,
+                p.Description,
+                p.ImageUrl,
+                p.Stock
+            })
+            .FirstOrDefault();
+
+        if (productWithStock == null)
         {
             return new NotFoundObjectResult(new { message = "Product not found", success = false });
         }
-        return new OkObjectResult(new { message = "Product found", success = true, data = product });
+        return new OkObjectResult(new { message = "Product found", success = true, data = productWithStock });
     }
 
     public IActionResult DeleteProductById(long id, string token)

@@ -24,6 +24,7 @@ builder.Services.AddScoped<IJwtServices, JwtManager>();
 builder.Services.AddScoped<IAuthServices, AuthManager>();
 builder.Services.AddScoped<IUserServices, UserManager>();
 builder.Services.AddScoped<IProductServices, ProductManager>();
+builder.Services.AddScoped<IStockServices, StockManager>();
 
 var app = builder.Build();
 

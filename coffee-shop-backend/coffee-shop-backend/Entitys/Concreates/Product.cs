@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace coffee_shop_backend.Entitys.Concreates;
 
 public class Product : BaseEntity
