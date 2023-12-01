@@ -77,7 +77,26 @@ if (!_jwtServices.IsTokenValid(token))
             return new UnauthorizedResult();
         }
 
-        Order order = _coffeeShopDbContex.Orders.Find(orderId);
+        Order? order = _coffeeShopDbContex.Orders.Find(orderId);
+
+        if (order  == null)
+        {
+            return new NotFoundResult();
+        }
+
+        long userId = _jwtServices.GetUserIdFromToken(token);
+        User? user = _coffeeShopDbContex.Users.Find(userId);
+
+        if (user == null)
+        {
+            return new NotFoundResult();
+        }
+
+        if (user.Role != EnumRole.ADMIN)
+        {
+            return new UnauthorizedResult();
+        }
+
         order.Status = request.Status;
         _coffeeShopDbContex.Update(order);
 

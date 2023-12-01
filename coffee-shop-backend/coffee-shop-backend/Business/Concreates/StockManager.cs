@@ -25,6 +25,20 @@ public class StockManager:IStockServices
             return new UnauthorizedResult();
         }
 
+        long userId = _jwtServices.GetUserIdFromToken(token);
+
+        User? user = _coffeeShopDbContex.Users.Find(userId);
+
+        if (user == null)
+        {
+            return new NotFoundObjectResult(new { message = "User not found", success = false });
+        }
+
+        if (user.Role != EnumRole.ADMIN)
+        {
+            return new UnauthorizedResult();
+        }
+
         Product? product = _coffeeShopDbContex.Products.Find(request.ProductId);
 
         if (product == null)
@@ -54,6 +68,21 @@ public class StockManager:IStockServices
     public IActionResult UpdateStock(UpdateStockRequest request, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
+        {
+            return new UnauthorizedResult();
+        }
+
+        long userId = _jwtServices.GetUserIdFromToken(token);
+
+
+        User? user = _coffeeShopDbContex.Users.Find(userId);
+
+        if (user == null)
+        {
+            return new NotFoundObjectResult(new { message = "User not found", success = false });
+        }
+
+        if (user.Role != EnumRole.ADMIN)
         {
             return new UnauthorizedResult();
         }

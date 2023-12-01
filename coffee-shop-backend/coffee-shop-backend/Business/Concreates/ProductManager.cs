@@ -19,8 +19,26 @@ public class ProductManager: IProductServices
         _jwtServices = jwtServices;
     }
 
-    public IActionResult AddProduct(AddProductRequest request)
+    public IActionResult AddProduct(AddProductRequest request, string token)
     {
+        if (!_jwtServices.IsTokenValid(token))
+        {
+            return new UnauthorizedResult();
+        }
+
+        long userId = _jwtServices.GetUserIdFromToken(token);
+
+        User? user = _coffeeShopDbContex.Users.Find(userId);
+
+        if (user == null)
+        {
+            return new NotFoundObjectResult(new { message = "User not found", success = false });
+        }
+
+        if (user.Role != EnumRole.ADMIN)
+        {
+            return new UnauthorizedResult();
+        }
 
         Product product = new()
         {
@@ -73,6 +91,20 @@ public class ProductManager: IProductServices
     public IActionResult DeleteProductById(long id, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
+        {
+            return new UnauthorizedResult();
+        }
+
+        long userId = _jwtServices.GetUserIdFromToken(token);
+
+        User? user = _coffeeShopDbContex.Users.Find(userId);
+
+        if (user == null)
+        {
+            return new NotFoundObjectResult(new { message = "User not found", success = false });
+        }
+
+        if (user.Role != EnumRole.ADMIN)
         {
             return new UnauthorizedResult();
         }

@@ -16,9 +16,9 @@ public class ProductController: ControllerBase
     }
 
     [HttpPost]
-    public IActionResult AddProduct([FromBody]AddProductRequest request)
+    public IActionResult AddProduct([FromBody]AddProductRequest request, [FromHeader] string token)
     {
-        return _productServices.AddProduct(request);
+        return _productServices.AddProduct(request, token);
     }
 
     [HttpGet("{id}")]
