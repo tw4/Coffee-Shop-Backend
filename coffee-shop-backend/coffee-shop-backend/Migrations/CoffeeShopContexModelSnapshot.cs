@@ -9,7 +9,7 @@ using coffee_shop_backend.Contexs;
 
 namespace coffee_shop_backend.Migrations
 {
-    [DbContext(typeof(CoffeeShopContex))]
+    [DbContext(typeof(CoffeeShopDbContex))]
     partial class CoffeeShopContexModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

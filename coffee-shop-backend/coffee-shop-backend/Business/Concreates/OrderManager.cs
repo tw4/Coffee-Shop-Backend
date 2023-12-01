@@ -9,12 +9,12 @@ namespace coffee_shop_backend.Business.Concreates;
 
 public class OrderManager: IOrderServices
 {
-    private readonly CoffeeShopContex _coffeeShopContex;
+    private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
 
-    public OrderManager(CoffeeShopContex coffeeShopContex, IJwtServices jwtServices)
+    public OrderManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices)
     {
-        _coffeeShopContex = coffeeShopContex;
+        _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;
     }
 
@@ -34,11 +34,11 @@ public class OrderManager: IOrderServices
             Status = EnumOrderStatus.Waiting,
         };
 
-        _coffeeShopContex.Orders.Add(order);
+        _coffeeShopDbContex.Orders.Add(order);
 
         try
         {
-            _coffeeShopContex.SaveChanges();
+            _coffeeShopDbContex.SaveChanges();
             return new OkObjectResult(new { message = "Order added successfully", success = true });
         }
         catch (Exception e)
@@ -56,7 +56,7 @@ if (!_jwtServices.IsTokenValid(token))
 
         long id = _jwtServices.GetUserIdFromToken(token);
 
-        var ordersWithUserAndProduct = _coffeeShopContex.Orders
+        var ordersWithUserAndProduct = _coffeeShopDbContex.Orders
             .Include(o => o.User)
             .Include(o => o.Product)
             .Where(o => o.UserId == id).Select(o => new
@@ -77,13 +77,13 @@ if (!_jwtServices.IsTokenValid(token))
             return new UnauthorizedResult();
         }
 
-        Order order = _coffeeShopContex.Orders.Find(orderId);
+        Order order = _coffeeShopDbContex.Orders.Find(orderId);
         order.Status = request.Status;
-        _coffeeShopContex.Update(order);
+        _coffeeShopDbContex.Update(order);
 
         try
         {
-            _coffeeShopContex.SaveChanges();
+            _coffeeShopDbContex.SaveChanges();
             return new OkObjectResult(new {message = "Order status updated successfully", success = true});
         }
         catch (Exception e)

@@ -8,12 +8,12 @@ namespace coffee_shop_backend.Business.Concreates;
 
 public class UserManager : IUserServices
 {
-    private readonly CoffeeShopContex _coffeeShopContex;
+    private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
 
-    public UserManager(CoffeeShopContex coffeeShopContex, IJwtServices jwtServices)
+    public UserManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices)
     {
-        _coffeeShopContex = coffeeShopContex;
+        _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;
     }
 
@@ -25,10 +25,10 @@ public class UserManager : IUserServices
         user.Email = request.Email;
         user.Password = request.Password;
         user.Role = EnumRole.USER;
-        _coffeeShopContex.Users.Add(user);
+        _coffeeShopDbContex.Users.Add(user);
         try
         {
-            _coffeeShopContex.SaveChanges();
+            _coffeeShopDbContex.SaveChanges();
             return new OkObjectResult(new { message = "User added successfully", success = true });
         }
         catch (Exception e)
@@ -45,7 +45,7 @@ public class UserManager : IUserServices
         }
 
         long Id = _jwtServices.GetUserIdFromToken(token);
-        User? user = (from u in _coffeeShopContex.Users where u.Id == Id select u).FirstOrDefault();
+        User? user = (from u in _coffeeShopDbContex.Users where u.Id == Id select u).FirstOrDefault();
 
         if (user == null )
         {
@@ -62,18 +62,18 @@ public class UserManager : IUserServices
         }
 
         long Id = _jwtServices.GetUserIdFromToken(token);
-        User? user = (from u in _coffeeShopContex.Users where u.Id == Id select u).FirstOrDefault();
+        User? user = (from u in _coffeeShopDbContex.Users where u.Id == Id select u).FirstOrDefault();
 
         if (user == null)
         {
             return new BadRequestObjectResult(new { message = "User not found", success = false });
         }
 
-        _coffeeShopContex.Users.Remove(user);
+        _coffeeShopDbContex.Users.Remove(user);
 
         try
         {
-            _coffeeShopContex.SaveChanges();
+            _coffeeShopDbContex.SaveChanges();
             return new OkObjectResult(new { message = "User deleted successfully", success = true });
         }
         catch (Exception e)
@@ -91,7 +91,7 @@ public class UserManager : IUserServices
 
         long Id = _jwtServices.GetUserIdFromToken(token);
 
-        User? user = (from u in _coffeeShopContex.Users where u.Id == Id select u).FirstOrDefault();
+        User? user = (from u in _coffeeShopDbContex.Users where u.Id == Id select u).FirstOrDefault();
 
         if (user == null)
         {
@@ -99,11 +99,11 @@ public class UserManager : IUserServices
         }
 
         user.Password = request.Password;
-        _coffeeShopContex.Users.Update(user);
+        _coffeeShopDbContex.Users.Update(user);
 
         try
         {
-            _coffeeShopContex.SaveChanges();
+            _coffeeShopDbContex.SaveChanges();
             return new OkObjectResult(new { message = "User password updated successfully", success = true });
         }
         catch (Exception e)
@@ -120,7 +120,7 @@ public class UserManager : IUserServices
         }
 
         long Id = _jwtServices.GetUserIdFromToken(token);
-        User? user = (from u in _coffeeShopContex.Users where u.Id == Id select u).FirstOrDefault();
+        User? user = (from u in _coffeeShopDbContex.Users where u.Id == Id select u).FirstOrDefault();
 
         if (user == null)
         {
@@ -130,11 +130,11 @@ public class UserManager : IUserServices
         user.Name = request.Name;
         user.Surname = request.Surname;
         user.Email = request.Email;
-        _coffeeShopContex.Users.Update(user);
+        _coffeeShopDbContex.Users.Update(user);
 
         try
         {
-            _coffeeShopContex.SaveChanges();
+            _coffeeShopDbContex.SaveChanges();
             return new OkObjectResult(new { message = "User information updated successfully", success = true });
         }
         catch (Exception e)

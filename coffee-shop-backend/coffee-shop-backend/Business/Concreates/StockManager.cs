@@ -9,12 +9,12 @@ namespace coffee_shop_backend.Business.Concreates;
 
 public class StockManager:IStockServices
 {
-    private readonly CoffeeShopContex _coffeeShopContex;
+    private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
 
-    public StockManager(CoffeeShopContex coffeeShopContex, IJwtServices jwtServices)
+    public StockManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices)
     {
-        _coffeeShopContex = coffeeShopContex;
+        _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;
     }
 
@@ -25,7 +25,7 @@ public class StockManager:IStockServices
             return new UnauthorizedResult();
         }
 
-        Product? product = _coffeeShopContex.Products.Find(request.ProductId);
+        Product? product = _coffeeShopDbContex.Products.Find(request.ProductId);
 
         if (product == null)
         {
@@ -38,11 +38,11 @@ public class StockManager:IStockServices
            Amount = request.Amount,
         };
 
-        _coffeeShopContex.Stocks.Add(stock);
+        _coffeeShopDbContex.Stocks.Add(stock);
 
         try
         {
-            _coffeeShopContex.SaveChanges();
+            _coffeeShopDbContex.SaveChanges();
             return new OkObjectResult(new { message = "Stock added successfully", success = true });
         }
         catch (Exception e)
@@ -58,7 +58,7 @@ public class StockManager:IStockServices
             return new UnauthorizedResult();
         }
 
-        Stock? stock = _coffeeShopContex.Stocks.Find(request.Id);
+        Stock? stock = _coffeeShopDbContex.Stocks.Find(request.Id);
 
         if (stock == null)
         {
@@ -67,11 +67,11 @@ public class StockManager:IStockServices
 
        stock.Amount = request.Amount;
 
-       _coffeeShopContex.Stocks.Update(stock);
+       _coffeeShopDbContex.Stocks.Update(stock);
 
        try
        {
-              _coffeeShopContex.SaveChanges();
+              _coffeeShopDbContex.SaveChanges();
               return new OkObjectResult(new { message = "Stock updated successfully", success = true });
        }
        catch (Exception e)
@@ -87,18 +87,18 @@ public class StockManager:IStockServices
             return new UnauthorizedResult();
         }
 
-        Stock? stock = _coffeeShopContex.Stocks.Find(id);
+        Stock? stock = _coffeeShopDbContex.Stocks.Find(id);
 
         if (stock == null)
         {
             return new NotFoundObjectResult(new { message = "Stock not found", success = false });
         }
 
-        _coffeeShopContex.Stocks.Remove(stock);
+        _coffeeShopDbContex.Stocks.Remove(stock);
 
         try
         {
-            _coffeeShopContex.SaveChanges();
+            _coffeeShopDbContex.SaveChanges();
             return new OkObjectResult(new { message = "Stock deleted successfully", success = true });
         }
         catch (Exception e)
@@ -114,7 +114,7 @@ public class StockManager:IStockServices
             return new UnauthorizedResult();
         }
 
-        var stockWithProduct = _coffeeShopContex.Stocks
+        var stockWithProduct = _coffeeShopDbContex.Stocks
             .Include(s => s.Product)
             .Where(s => s.Id == id)
             .Select(s => new

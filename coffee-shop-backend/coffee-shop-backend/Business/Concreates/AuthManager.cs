@@ -8,18 +8,18 @@ namespace coffee_shop_backend.Business.Concreates;
 
 public class AuthManager: IAuthServices
 {
-    private readonly CoffeeShopContex _coffeeShopContex;
+    private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
 
-    public AuthManager(CoffeeShopContex coffeeShopContex, IJwtServices jwtServices)
+    public AuthManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices)
     {
-        _coffeeShopContex = coffeeShopContex;
+        _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;
     }
 
     public IActionResult UserLogin(LoginRequest request)
     {
-        User? user = (from u in _coffeeShopContex.Users
+        User? user = (from u in _coffeeShopDbContex.Users
             where u.Email == request.Email && u.Password == request.Password
             select u).FirstOrDefault();
 

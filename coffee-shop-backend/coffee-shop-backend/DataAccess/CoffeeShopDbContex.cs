@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace coffee_shop_backend.Contexs;
 
-public class CoffeeShopContex : DbContext
+public class CoffeeShopDbContex : DbContext
 {
     private readonly IConfiguration _configuration;
 
@@ -12,7 +12,7 @@ public class CoffeeShopContex : DbContext
    public DbSet<Stock> Stocks { get; set; }
    public DbSet<Order> Orders { get; set; }
 
-    public CoffeeShopContex(DbContextOptions<CoffeeShopContex> options) : base(options)
+    public CoffeeShopDbContex(DbContextOptions<CoffeeShopDbContex> options) : base(options)
     {
     }
 

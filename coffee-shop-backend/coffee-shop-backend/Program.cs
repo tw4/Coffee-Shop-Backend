@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 
-builder.Services.AddDbContext<CoffeeShopContex>(
+builder.Services.AddDbContext<CoffeeShopDbContex>(
     options => options.UseNpgsql("Host=localhost;Port=5432;Database=mydatabase;Username=myuser;Password=mypassword"));
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

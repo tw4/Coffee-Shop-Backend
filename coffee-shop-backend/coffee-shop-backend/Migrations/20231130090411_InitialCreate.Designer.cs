@@ -10,7 +10,7 @@ using coffee_shop_backend.Contexs;
 
 namespace coffee_shop_backend.Migrations
 {
-    [DbContext(typeof(CoffeeShopContex))]
+    [DbContext(typeof(CoffeeShopDbContex))]
     [Migration("20231130090411_InitialCreate")]
     partial class InitialCreate
     {
