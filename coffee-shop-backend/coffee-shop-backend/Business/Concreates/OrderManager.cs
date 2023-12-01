@@ -27,6 +27,13 @@ public class OrderManager: IOrderServices
 
         long userId = _jwtServices.GetUserIdFromToken(token);
 
+        Stock? stock = _coffeeShopDbContex.Stocks.FirstOrDefault(s => s.ProductId == request.ProductId);
+
+        if (stock.Amount <= 0)
+        {
+            return new BadRequestObjectResult(new {message = "Stock is empty", success = false});
+        }
+
         Order order = new Order()
         {
             ProductId = request.ProductId,
@@ -34,7 +41,10 @@ public class OrderManager: IOrderServices
             Status = EnumOrderStatus.Waiting,
         };
 
+        stock.Amount -= 1;
+
         _coffeeShopDbContex.Orders.Add(order);
+        _coffeeShopDbContex.Stocks.Update(stock);
 
         try
         {
