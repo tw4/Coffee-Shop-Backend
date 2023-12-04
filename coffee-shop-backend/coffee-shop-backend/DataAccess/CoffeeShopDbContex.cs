@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using coffee_shop_backend.Entitys.Concreates;
 using Microsoft.EntityFrameworkCore;
 
@@ -39,5 +40,24 @@ public class CoffeeShopDbContex : DbContext
                 Role = EnumRole.ADMIN
             }
         );
+
+        // seed products
+        List<Product> products = new List<Product>();
+
+        for (int i = 1; i < 10000; i++)
+        {
+           Product p = new Product
+           {
+               Id = i,
+               Name = $"Product {i}",
+               Description = $"Product {i} description",
+               ImageUrl = $"www.example.com/{i}.jpg",
+               Price =  RandomNumberGenerator.GetInt32(1, 1000),
+           };
+           products.Add(p);
+        }
+
+        modelBuilder.Entity<Product>().HasData(products);
+
     }
 }
