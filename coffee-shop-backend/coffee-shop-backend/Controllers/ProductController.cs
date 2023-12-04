@@ -39,4 +39,10 @@ public class ProductController: ControllerBase
         return _productServices.GetProductsByPage(page, token);
     }
 
+    [HttpGet]
+    public IActionResult GetAllProducts([FromHeader]string token)
+    {
+        return _productServices.GetAllProducts(token);
+    }
+
 }

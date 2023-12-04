@@ -9,4 +9,5 @@ public interface IProductServices
     public IActionResult GetProductById(long id, string token);
     public IActionResult DeleteProductById(long id, string token);
     public IActionResult GetProductsByPage(int page, string token);
+    public IActionResult GetAllProducts(string token);
 }

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "+eXX8DAxKDkKc8kH28+JyclofdISjNxAU4ydVEq+ylXoW6Y7DMjaDWGUmxLDDpW1LB/6JAe+Uw8Qw/w/vBh8Dg==",
+  "dgSpecHash": "TE5i5tG0ECb8qEIDWXoCW5Om+97j5bL1Fp7OFuRm08Aopy7pJxWXKpwmgp7FdC5Veu7sGY5Em2NxonQHwTdmkg==",
   "success": true,
   "projectFilePath": "/Users/x/github/coffee-shop/coffee-shop-backend/coffee-shop-backend/coffee-shop-backend.csproj",
   "expectedPackageFiles": [
@@ -40,6 +40,8 @@
     "/Users/x/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
     "/Users/x/.nuget/packages/npgsql/8.0.0/npgsql.8.0.0.nupkg.sha512",
     "/Users/x/.nuget/packages/npgsql.entityframeworkcore.postgresql/8.0.0/npgsql.entityframeworkcore.postgresql.8.0.0.nupkg.sha512",
+    "/Users/x/.nuget/packages/pipelines.sockets.unofficial/2.2.8/pipelines.sockets.unofficial.2.2.8.nupkg.sha512",
+    "/Users/x/.nuget/packages/stackexchange.redis/2.7.4/stackexchange.redis.2.7.4.nupkg.sha512",
     "/Users/x/.nuget/packages/swashbuckle.aspnetcore/6.4.0/swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
     "/Users/x/.nuget/packages/swashbuckle.aspnetcore.swagger/6.4.0/swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "/Users/x/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.4.0/swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",

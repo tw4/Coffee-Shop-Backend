@@ -1,3 +1,4 @@
+using System.Text.Json;
 using coffee_shop_backend.Business.Abstracts;
 using coffee_shop_backend.Contexs;
 using coffee_shop_backend.Dto.Product;
@@ -12,11 +13,13 @@ public class ProductManager: IProductServices
 
     private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
+    private readonly IRedisServices _redisServices;
 
-    public ProductManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices)
+    public ProductManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, IRedisServices redisServices)
     {
         _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;
+        _redisServices = redisServices;
     }
 
     public IActionResult AddProduct(AddProductRequest request, string token)
@@ -156,5 +159,42 @@ public class ProductManager: IProductServices
         }
 
         return new OkObjectResult(new { message = "Products found", success = true, data = products });
+    }
+
+    public IActionResult GetAllProducts(string token)
+    {
+        if (!_jwtServices.IsTokenValid(token))
+        {
+            return new UnauthorizedResult();
+        }
+
+        if (_redisServices.GetValue("products") != null)
+        {
+            var products = JsonSerializer.Deserialize<List<object>>(_redisServices.GetValue("products")!);
+            return new OkObjectResult(new { message = "Products found", success = true, data = products });
+        }
+        else
+        {
+            var products = _coffeeShopDbContex.Products
+                .Include(p => p.Stock)
+                .Select(p => new
+                {
+                    p.Id,
+                    p.Name,
+                    p.Price,
+                    p.Description,
+                    p.ImageUrl,
+                    p.Stock
+                })
+                .ToList();
+
+            if (products.Count == 0)
+            {
+                return new NotFoundObjectResult(new {message = "Products not found", success = false});
+            }
+
+            _redisServices.SetValue("products", JsonSerializer.Serialize(products), TimeSpan.FromMinutes(60));
+            return new OkObjectResult(new {message = "Products found", success = true, data = products});
+        }
     }
 }
