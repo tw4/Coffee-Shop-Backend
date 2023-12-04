@@ -128,4 +128,33 @@ public class ProductManager: IProductServices
             return new NotFoundObjectResult(new { message = e.Message, success = false });
         }
     }
+
+    public IActionResult GetProductsByPage(int page,string token)
+    {
+        if (!_jwtServices.IsTokenValid(token))
+        {
+            return new UnauthorizedResult();
+        }
+
+        var products = _coffeeShopDbContex.Products
+            .Include(p => p.Stock)
+            .Select(p => new
+            {
+                p.Id,
+                p.Name,
+                p.Price,
+                p.Description,
+                p.ImageUrl,
+                p.Stock
+            })
+            .Skip(page * 10)
+            .Take(10).ToList();
+
+        if (products.Count == 0)
+        {
+            return new NotFoundObjectResult(new { message = "Products not found", success = false });
+        }
+
+        return new OkObjectResult(new { message = "Products found", success = true, data = products });
+    }
 }

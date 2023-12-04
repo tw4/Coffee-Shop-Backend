@@ -32,4 +32,11 @@ public class ProductController: ControllerBase
     {
         return _productServices.DeleteProductById(id, token);
     }
+
+    [HttpGet("page/{page}")]
+    public IActionResult GetProductsByPage([FromRoute]int page, [FromHeader]string token)
+    {
+        return _productServices.GetProductsByPage(page, token);
+    }
+
 }
