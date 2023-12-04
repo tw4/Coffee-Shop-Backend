@@ -46,6 +46,7 @@ This project utilizes the following technologies:
 - Entity Framework Core
 - JWT Authentication
 - Swagger/OpenAPI documentation
+- Redis
 
 ## Contributing
 
