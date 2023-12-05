@@ -47,6 +47,7 @@ This project utilizes the following technologies:
 - JWT Authentication
 - Swagger/OpenAPI documentation
 - Redis
+- Elasticsearch
 
 ## Contributing
 
