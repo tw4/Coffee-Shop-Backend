@@ -60,5 +60,20 @@ public class CoffeeShopDbContex : DbContext
 
         modelBuilder.Entity<Product>().HasData(products);
 
+        // seed stocks
+        List<Stock> stocks = new List<Stock>();
+
+        for (int i = 1; i < 10000; i++)
+        {
+            Stock s = new Stock
+            {
+                Id = i,
+                ProductId = i,
+                Amount = RandomNumberGenerator.GetInt32(1, 1000),
+            };
+            stocks.Add(s);
+        }
+
+        modelBuilder.Entity<Stock>().HasData(stocks);
     }
 }

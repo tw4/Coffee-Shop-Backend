@@ -33,7 +33,7 @@ public class ProductElasticSearchManager<T>: IProductElasticSearchServices<T> wh
         var result = _client.Search<Product>(s => s
             .Query(q => q
                 .MatchPhrase(m => m
-                    .Field(f => f.Name) // 'Name' özelliğine doğrudan erişim
+                    .Field(f => f.Name)
                     .Query(query)
                 )
             )
