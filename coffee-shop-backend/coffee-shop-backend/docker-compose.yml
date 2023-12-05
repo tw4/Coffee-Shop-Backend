@@ -46,6 +46,29 @@ services:
     networks:
       - pg-network
 
+  # Elasticsearch service
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.15.2
+    container_name: coffee-shop-elasticsearch
+    environment:
+      - discovery.type=single-node
+    ports:
+      - "9200:9200"  # Elasticsearch HTTP port
+      - "9300:9300"  # Elasticsearch TCP port
+    networks:
+      - pg-network
+
+  # Kibana service
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.15.2
+    container_name: coffee-shop-kibana
+    environment:
+      ELASTICSEARCH_HOSTS: "http://elasticsearch:9200"
+    ports:
+      - "5601:5601"  # Kibana port
+    networks:
+      - pg-network
+
 networks:
   pg-network:
     driver: bridge
