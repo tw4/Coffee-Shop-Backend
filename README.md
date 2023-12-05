@@ -49,6 +49,7 @@ This project utilizes the following technologies:
 - Redis
 - Elasticsearch
 - Docker
+- Azure SQL Edge
 
 ## Contributing
 
