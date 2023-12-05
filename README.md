@@ -48,6 +48,7 @@ This project utilizes the following technologies:
 - Swagger/OpenAPI documentation
 - Redis
 - Elasticsearch
+- Docker
 
 ## Contributing
 
