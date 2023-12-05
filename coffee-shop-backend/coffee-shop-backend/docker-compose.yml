@@ -69,6 +69,20 @@ services:
     networks:
       - pg-network
 
+  # Azure SQL Edge Service
+  azuresqledge:
+    image: mcr.microsoft.com/azure-sql-edge
+    container_name: azuresqledge
+    environment:
+      ACCEPT_EULA: '1'
+      MSSQL_SA_PASSWORD: 'P@ssw0rd1234'
+    ports:
+      - '1433:1433'
+    cap_add:
+      - SYS_PTRACE
+    networks:
+      - pg-network
+
 networks:
   pg-network:
     driver: bridge

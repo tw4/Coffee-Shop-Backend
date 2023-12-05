@@ -19,10 +19,11 @@ public class CoffeeShopDbContex : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
+        // connection string for azure sql edge
+        var connectionString = "server=localhost, 1433;database=Databases;user=sa;password=P@ssw0rd1234; TrustServerCertificate=True";
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseNpgsql(
-                "Host=localhost;Port=5432;Database=mydatabase;Username=myuser;Password=mypassword");
+            optionsBuilder.UseSqlServer(connectionString);
         }
     }
 

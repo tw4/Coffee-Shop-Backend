@@ -16,14 +16,13 @@ public class SearchController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult Search([FromQuery]string query, [FromHeader]string token)
+    public IActionResult ProductSearch([FromQuery]string query, [FromHeader]string token)
     {
-        var result = _productElasticSearchServices.Search(query, token);
-        return Ok(result.Documents);
+        return _productElasticSearchServices.Search(query, token);
     }
 
-    [HttpGet("index")]
-    public IActionResult IndexDataFromDatabase()
+    [HttpGet("/index")]
+    public IActionResult IndexProductDataFromDatabase()
     {
         _productElasticSearchServices.IndexDataFromDatabase();
         return Ok();

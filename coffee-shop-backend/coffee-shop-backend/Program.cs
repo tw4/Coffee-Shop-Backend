@@ -11,9 +11,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
+// connection string for azure sql edge
+var connectionString = "server=localhost, 1433;database=Databases;user=sa;password=P@ssw0rd1234; TrustServerCertificate=True";
+builder.Services.AddDbContext<CoffeeShopDbContex>(options =>
+    options.UseSqlServer(connectionString)
+);
 
-builder.Services.AddDbContext<CoffeeShopDbContex>(
-    options => options.UseNpgsql("Host=localhost;Port=5432;Database=mydatabase;Username=myuser;Password=mypassword"));
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
