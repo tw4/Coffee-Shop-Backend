@@ -8,7 +8,7 @@ To run the project on your local machine, follow these steps:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/tw4/coffee-shop-monorepo/tree/main/coffee-shop-backend
+    git clone https://github.com/tw4/Coffee-Shop-Backend.git
     ```
 2. Navigate to the project directory:
     ```bash
