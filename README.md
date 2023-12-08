@@ -50,6 +50,7 @@ This project utilizes the following technologies:
 - Elasticsearch
 - Docker
 - Azure SQL Edge
+- Stripe
 
 ## Contributing
 
