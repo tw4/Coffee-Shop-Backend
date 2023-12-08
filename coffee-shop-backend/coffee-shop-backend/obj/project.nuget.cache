@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "VHJNcsJLejbTeSa8SWaOIBIMftvlgleaBAJAueq4uR2Og30619K+C2wKtOehSEMVMyULOn9kS6Ji39US/eLxQA==",
+  "dgSpecHash": "fj2awdhBAtRdXsvvjt3VS4g/N3uVZGPIsXOy5xaX8XAEEps7N14/W7UDuXkY1Os31qlM1lvGm/QVWJii1If/Ow==",
   "success": true,
   "projectFilePath": "/Users/x/github/coffee-shop/coffee-shop-backend/coffee-shop-backend/coffee-shop-backend.csproj",
   "expectedPackageFiles": [
@@ -50,10 +50,12 @@
     "/Users/x/.nuget/packages/microsoft.win32.systemevents/6.0.0/microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "/Users/x/.nuget/packages/mono.texttemplating/2.2.1/mono.texttemplating.2.2.1.nupkg.sha512",
     "/Users/x/.nuget/packages/nest/7.17.5/nest.7.17.5.nupkg.sha512",
+    "/Users/x/.nuget/packages/newtonsoft.json/12.0.3/newtonsoft.json.12.0.3.nupkg.sha512",
     "/Users/x/.nuget/packages/npgsql/8.0.0/npgsql.8.0.0.nupkg.sha512",
     "/Users/x/.nuget/packages/npgsql.entityframeworkcore.postgresql/8.0.0/npgsql.entityframeworkcore.postgresql.8.0.0.nupkg.sha512",
     "/Users/x/.nuget/packages/pipelines.sockets.unofficial/2.2.8/pipelines.sockets.unofficial.2.2.8.nupkg.sha512",
     "/Users/x/.nuget/packages/stackexchange.redis/2.7.4/stackexchange.redis.2.7.4.nupkg.sha512",
+    "/Users/x/.nuget/packages/stripe.net/43.6.0-beta.1/stripe.net.43.6.0-beta.1.nupkg.sha512",
     "/Users/x/.nuget/packages/swashbuckle.aspnetcore/6.4.0/swashbuckle.aspnetcore.6.4.0.nupkg.sha512",
     "/Users/x/.nuget/packages/swashbuckle.aspnetcore.swagger/6.4.0/swashbuckle.aspnetcore.swagger.6.4.0.nupkg.sha512",
     "/Users/x/.nuget/packages/swashbuckle.aspnetcore.swaggergen/6.4.0/swashbuckle.aspnetcore.swaggergen.6.4.0.nupkg.sha512",

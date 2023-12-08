@@ -39,6 +39,10 @@ public class OrderManager: IOrderServices
             ProductId = request.ProductId,
             UserId = userId,
             Status = EnumOrderStatus.Waiting,
+            PaymentDate = DateTime.Now,
+            Address = request.Address,
+            Email = request.Email,
+            FullName = request.FullName,
         };
 
         stock.Amount -= 1;
@@ -72,6 +76,10 @@ if (!_jwtServices.IsTokenValid(token))
             .Where(o => o.UserId == id).Select(o => new
             {
                 o.Id,
+                o.PaymentDate,
+                o.Address,
+                o.Email,
+                o.FullName,
                 o.Status,
                 o.User,
                 o.Product
