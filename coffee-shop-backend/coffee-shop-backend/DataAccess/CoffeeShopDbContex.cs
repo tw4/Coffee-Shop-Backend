@@ -20,10 +20,9 @@ public class CoffeeShopDbContex : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         // connection string for azure sql edge
-        var connectionString = "server=localhost, 1433;database=Databases;user=sa;password=P@ssw0rd1234; TrustServerCertificate=True";
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer(connectionString);
+            optionsBuilder.UseSqlServer(_configuration["ConectionStrings:DefaultConnection"]);
         }
     }
 

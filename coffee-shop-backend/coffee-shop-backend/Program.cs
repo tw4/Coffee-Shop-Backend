@@ -17,10 +17,8 @@ IConfiguration configuration = new ConfigurationBuilder()
     .Build();
 
 // connection string for azure sql edge
-var connectionString = "server=localhost, 1433;database=Databases;user=sa;password=P@ssw0rd1234; TrustServerCertificate=True";
 builder.Services.AddDbContext<CoffeeShopDbContex>(options =>
-    options.UseSqlServer(connectionString)
-);
+    options.UseSqlServer(configuration["ConectionStrings:DefaultConnection"]));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
