@@ -4,6 +4,8 @@ using coffee_shop_backend.Business.Concreates;
 using coffee_shop_backend.Contexs;
 using Microsoft.EntityFrameworkCore;
 using Nest;
+using Serilog;
+using Serilog.Sinks.MSSqlServer;
 using Stripe;
 using Product = coffee_shop_backend.Entitys.Concreates.Product;
 
@@ -15,6 +17,11 @@ var builder = WebApplication.CreateBuilder(args);
 IConfiguration configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .Build();
+
+// serilog configuration
+Log.Logger = new LoggerConfiguration().CreateBootstrapLogger();
+builder.Host.UseSerilog(((ctx, lc) => lc
+    .ReadFrom.Configuration(ctx.Configuration)));
 
 // connection string for azure sql edge
 builder.Services.AddDbContext<CoffeeShopDbContex>(options =>
@@ -70,6 +77,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseSerilogRequestLogging();
 app.UseCors();
 app.MapControllers();
 app.Run();
