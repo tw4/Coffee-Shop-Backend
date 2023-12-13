@@ -15,12 +15,14 @@ public class PaymentManager: IPaymentServices
     private readonly IConfiguration _configuration;
     private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
+    private readonly Logger<PaymentManager> _logger;
 
-    public PaymentManager(IConfiguration configuration, CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices)
+    public PaymentManager(IConfiguration configuration, CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<PaymentManager> logger)
     {
         _configuration = configuration;
         _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;
+        _logger = logger;
     }
     public Session Create(CreatePaymenRequest request ,string token)
     {
@@ -28,6 +30,7 @@ public class PaymentManager: IPaymentServices
 
         if (product == null)
         {
+            _logger.LogInformation("Product not found while creating payment");
             return null;
         }
 
@@ -72,6 +75,7 @@ public class PaymentManager: IPaymentServices
         };
         // Create the session
         Session session = service.Create(options);
+        _logger.LogInformation("Session created");
         return session;
     }
 
@@ -99,6 +103,7 @@ public class PaymentManager: IPaymentServices
         // Check if product exists
         if (product == null)
         {
+            _logger.LogInformation("Product not found while creating order");
             return new NotFoundObjectResult(new { message = "Product not found", success = false });
         }
         // Get the user id from token metadata
@@ -121,10 +126,12 @@ public class PaymentManager: IPaymentServices
         try
         {
             _coffeeShopDbContex.SaveChanges();
+            _logger.LogInformation("Order created");
             return new OkResult();
         }
         catch (Exception e)
         {
+            _logger.LogError($"Error while saving order {e.Message}");
             return new BadRequestObjectResult(new {message = "Error while saving order", success = false});
         }
     }

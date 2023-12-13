@@ -70,6 +70,7 @@ builder.Services.AddScoped<Logger<StockManager>>();
 builder.Services.AddScoped<Logger<RedisManager>>();
 builder.Services.AddScoped<Logger<ProductManager>>();
 builder.Services.AddScoped<Logger<ProductElasticSearchManager<Product>>>();
+builder.Services.AddScoped<Logger<PaymentManager>>();
 
 var app = builder.Build();
 
