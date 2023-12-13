@@ -67,6 +67,7 @@ builder.Services.AddScoped<IProductElasticSearchServices<Product>, ProductElasti
 builder.Services.AddScoped<IPaymentServices,PaymentManager>();
 builder.Services.AddScoped<Logger<UserManager>>();
 builder.Services.AddScoped<Logger<StockManager>>();
+builder.Services.AddScoped<Logger<RedisManager>>();
 
 var app = builder.Build();
 
