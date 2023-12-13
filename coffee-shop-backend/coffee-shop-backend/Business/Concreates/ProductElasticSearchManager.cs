@@ -12,21 +12,24 @@ public class ProductElasticSearchManager<T>: IProductElasticSearchServices<T> wh
     private readonly ElasticClient _client;
     private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
+    private readonly Logger<ProductElasticSearchManager<Product>> _logger;
 
 
-    public ProductElasticSearchManager(ElasticClient client, CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices)
+    public ProductElasticSearchManager(ElasticClient client, CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<ProductElasticSearchManager<Product>> logger)
     {
         var settings = new ConnectionSettings( new Uri("http://localhost:9200"))
             .DefaultIndex("coffee-shop");
         _client = new ElasticClient(settings);
         _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;
+        _logger = logger;
     }
 
     public IActionResult Search(string query, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation("Token is not valid. search");
             return new UnauthorizedResult();
         }
 
@@ -39,6 +42,7 @@ public class ProductElasticSearchManager<T>: IProductElasticSearchServices<T> wh
             )
         );
 
+        _logger.LogInformation("Search is successfull");
         return new OkObjectResult(new {message = "Data Found", success = true , data = result.Documents});
     }
 
@@ -46,5 +50,16 @@ public class ProductElasticSearchManager<T>: IProductElasticSearchServices<T> wh
     {
         var products = _coffeeShopDbContex.Products.ToList();
         var response = _client.IndexMany(products);
+        if (response.Errors)
+        {
+            foreach (var item in response.ItemsWithErrors)
+            {
+                _logger.LogError("Indexing Error", item.Error);
+            }
+        }
+        else
+        {
+            _logger.LogInformation("Indexing is successfull");
+        }
     }
 }

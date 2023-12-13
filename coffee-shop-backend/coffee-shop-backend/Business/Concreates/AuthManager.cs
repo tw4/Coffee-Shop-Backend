@@ -10,11 +10,13 @@ public class AuthManager: IAuthServices
 {
     private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
+    private readonly Logger<AuthManager> _logger;
 
-    public AuthManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices)
+    public AuthManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<AuthManager> logger)
     {
         _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;
+        _logger = logger;
     }
 
     public IActionResult UserLogin(LoginRequest request)
@@ -25,9 +27,11 @@ public class AuthManager: IAuthServices
 
         if (user == null)
         {
+            _logger.LogInformation("Email or password is wrong");
             return new BadRequestObjectResult(new {message = "Email or password is wrong"});
         }
         string token = _jwtServices.GenerateJwtToken(user.Id, user.Email);
+        _logger.LogInformation("User login success");
         return new OkObjectResult(new {token});
     }
 
@@ -35,6 +39,7 @@ public class AuthManager: IAuthServices
     {
         if (token == null)
         {
+            _logger.LogInformation("Token is null Auth");
             return new BadRequestObjectResult(new {message = "Token is null"});
         }
 
@@ -42,8 +47,10 @@ public class AuthManager: IAuthServices
 
        if (!isTokenValid)
        {
+           _logger.LogInformation("Token is invalid Auth");
            return new UnauthorizedResult();
        }
+       _logger.LogInformation("Token is valid Auth");
        return new OkObjectResult(new { message = "Token is valid", sucsess = isTokenValid});
     }
 }

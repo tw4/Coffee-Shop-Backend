@@ -10,15 +10,26 @@ public class UserManager : IUserServices
 {
     private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
+    private readonly Logger<UserManager> _logger;
 
-    public UserManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices)
+    public UserManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<UserManager> logger)
     {
         _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;
+        _logger = logger;
     }
 
     public IActionResult AddUser(AddUserRequest request)
     {
+
+        User u = _coffeeShopDbContex.Users.Where(u => u.Email == request.Email).FirstOrDefault();
+
+        if (u != null)
+        {
+            _logger.LogInformation($"User already exists. Add user");
+            return new BadRequestObjectResult(new { message = "User already exists", success = false });
+        }
+
         User user = new User() { };
         user.Name = request.Name;
         user.Surname = request.Surname;
@@ -29,10 +40,12 @@ public class UserManager : IUserServices
         try
         {
             _coffeeShopDbContex.SaveChanges();
+            _logger.LogInformation("User added successfully");
             return new OkObjectResult(new { message = "User added successfully", success = true });
         }
         catch (Exception e)
         {
+            _logger.LogError($"User added failed. Error: {e.Message}");
             return new BadRequestObjectResult( new { message = e.Message});
         }
     }
@@ -41,6 +54,7 @@ public class UserManager : IUserServices
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation($"Token is not valid. Get user by id");
             return new UnauthorizedResult();
         }
 
@@ -49,6 +63,7 @@ public class UserManager : IUserServices
 
         if (user == null )
         {
+            _logger.LogInformation($"User not found. Get user by id");
             return new BadRequestObjectResult(new { message = "User not found", success = false });
         }
         return new OkObjectResult(new { message = "User found", success = true, user = user });
@@ -58,6 +73,7 @@ public class UserManager : IUserServices
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation($"Token is not valid. Delete user by id");
             return new UnauthorizedResult();
         }
 
@@ -66,6 +82,7 @@ public class UserManager : IUserServices
 
         if (user == null)
         {
+            _logger.LogInformation($"User not found. Delete user by id");
             return new BadRequestObjectResult(new { message = "User not found", success = false });
         }
 
@@ -74,10 +91,12 @@ public class UserManager : IUserServices
         try
         {
             _coffeeShopDbContex.SaveChanges();
+            _logger.LogInformation($"User deleted successfully. Delete user by id");
             return new OkObjectResult(new { message = "User deleted successfully", success = true });
         }
         catch (Exception e)
         {
+            _logger.LogError($"User deleted failed. Error: {e.Message}");
             return new BadRequestObjectResult(new { message = e.Message });
         }
     }
@@ -86,6 +105,7 @@ public class UserManager : IUserServices
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation($"Token is not valid. Update user password");
             return new UnauthorizedResult();
         }
 
@@ -95,6 +115,7 @@ public class UserManager : IUserServices
 
         if (user == null)
         {
+            _logger.LogInformation($"User not found. Update user password");
             return new BadRequestObjectResult(new { message = "User not found", success = false });
         }
 
@@ -104,10 +125,12 @@ public class UserManager : IUserServices
         try
         {
             _coffeeShopDbContex.SaveChanges();
+            _logger.LogInformation($"User password updated successfully. Update user password");
             return new OkObjectResult(new { message = "User password updated successfully", success = true });
         }
         catch (Exception e)
         {
+            _logger.LogError($"User password updated failed. Error: {e.Message}");
             return new BadRequestObjectResult(new { message = e.Message });
         }
     }
@@ -116,6 +139,7 @@ public class UserManager : IUserServices
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation($"Token is not valid. Update user information");
             return new UnauthorizedResult();
         }
 
@@ -124,6 +148,7 @@ public class UserManager : IUserServices
 
         if (user == null)
         {
+            _logger.LogInformation($"User not found. Update user information");
             return new BadRequestObjectResult(new { message = "User not found", success = false });
         }
 
@@ -135,10 +160,12 @@ public class UserManager : IUserServices
         try
         {
             _coffeeShopDbContex.SaveChanges();
+            _logger.LogInformation($"User information updated successfully. Update user information");
             return new OkObjectResult(new { message = "User information updated successfully", success = true });
         }
         catch (Exception e)
         {
+            _logger.LogError($"User information updated failed. Error: {e.Message}");
             return new BadRequestObjectResult(new { message = e.Message });
         }
     }

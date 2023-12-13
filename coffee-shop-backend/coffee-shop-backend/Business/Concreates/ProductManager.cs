@@ -14,18 +14,21 @@ public class ProductManager: IProductServices
     private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
     private readonly IRedisServices _redisServices;
+    private readonly Logger<ProductManager> _logger;
 
-    public ProductManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, IRedisServices redisServices)
+    public ProductManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, IRedisServices redisServices, Logger<ProductManager> logger)
     {
         _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;
         _redisServices = redisServices;
+        _logger = logger;
     }
 
     public IActionResult AddProduct(AddProductRequest request, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation("Token is not valid add product");
             return new UnauthorizedResult();
         }
 
@@ -35,11 +38,13 @@ public class ProductManager: IProductServices
 
         if (user == null)
         {
+            _logger.LogInformation($"User not found Add Product");
             return new NotFoundObjectResult(new { message = "User not found", success = false });
         }
 
         if (user.Role != EnumRole.ADMIN)
         {
+            _logger.LogWarning($"User not admin Add Product");
             return new UnauthorizedResult();
         }
 
@@ -55,10 +60,12 @@ public class ProductManager: IProductServices
         try
         {
             _coffeeShopDbContex.SaveChanges();
+            _logger.LogInformation($"Product added successfully");
             return new OkObjectResult(new { message = "Product added successfully", success = true });
         }
         catch (Exception e)
         {
+            _logger.LogError($"Product not added Error: {e.Message}");
             return new BadRequestObjectResult(new { message = e.Message, success = false });
         }
     }
@@ -67,6 +74,7 @@ public class ProductManager: IProductServices
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation("Token is not valid get product by id");
             return new UnauthorizedResult();
         }
 
@@ -86,8 +94,11 @@ public class ProductManager: IProductServices
 
         if (productWithStock == null)
         {
+            _logger.LogInformation($"Product not found get product by id");
             return new NotFoundObjectResult(new { message = "Product not found", success = false });
         }
+
+        _logger.LogInformation($"Product found get product by id");
         return new OkObjectResult(new { message = "Product found", success = true, data = productWithStock });
     }
 
@@ -95,6 +106,7 @@ public class ProductManager: IProductServices
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation("Token is not valid delete product by id");
             return new UnauthorizedResult();
         }
 
@@ -104,11 +116,13 @@ public class ProductManager: IProductServices
 
         if (user == null)
         {
+            _logger.LogInformation($"User not found delete product by id");
             return new NotFoundObjectResult(new { message = "User not found", success = false });
         }
 
         if (user.Role != EnumRole.ADMIN)
         {
+            _logger.LogWarning($"User not admin delete product by id");
             return new UnauthorizedResult();
         }
 
@@ -116,6 +130,7 @@ public class ProductManager: IProductServices
 
         if (product == null)
         {
+            _logger.LogInformation($"Product not found delete product by id");
             return new NotFoundObjectResult(new { message = "Product not found", success = false });
         }
 
@@ -124,10 +139,12 @@ public class ProductManager: IProductServices
         try
         {
             _coffeeShopDbContex.SaveChanges();
+            _logger.LogInformation($"Product deleted successfully");
             return new OkObjectResult(new { message = "Product deleted successfully", success = true });
         }
         catch (Exception e)
         {
+            _logger.LogError($"Product not deleted Error: {e.Message}");
             return new NotFoundObjectResult(new { message = e.Message, success = false });
         }
     }
@@ -136,6 +153,7 @@ public class ProductManager: IProductServices
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation("Token is not valid get products by page");
             return new UnauthorizedResult();
         }
 
@@ -155,9 +173,11 @@ public class ProductManager: IProductServices
 
         if (products.Count == 0)
         {
+            _logger.LogInformation($"Products not found get products by page");
             return new NotFoundObjectResult(new { message = "Products not found", success = false });
         }
 
+        _logger.LogInformation($"Products found get products by page");
         return new OkObjectResult(new { message = "Products found", success = true, data = products });
     }
 
@@ -165,11 +185,13 @@ public class ProductManager: IProductServices
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation("Token is not valid get all products");
             return new UnauthorizedResult();
         }
 
         if (_redisServices.GetValue("products") != null)
         {
+            _logger.LogInformation($"Products found get all products from redis");
             var products = JsonSerializer.Deserialize<List<object>>(_redisServices.GetValue("products")!);
             return new OkObjectResult(new { message = "Products found", success = true, data = products });
         }
@@ -190,10 +212,12 @@ public class ProductManager: IProductServices
 
             if (products.Count == 0)
             {
+                _logger.LogInformation($"Products not found get all products from db");
                 return new NotFoundObjectResult(new {message = "Products not found", success = false});
             }
 
             _redisServices.SetValue("products", JsonSerializer.Serialize(products), TimeSpan.FromMinutes(60));
+            _logger.LogInformation($"Products found get all products from db");
             return new OkObjectResult(new {message = "Products found", success = true, data = products});
         }
     }

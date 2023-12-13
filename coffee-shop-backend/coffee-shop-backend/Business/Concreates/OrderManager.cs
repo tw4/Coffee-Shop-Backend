@@ -11,17 +11,20 @@ public class OrderManager: IOrderServices
 {
     private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
+    private readonly Logger<OrderManager> _logger;
 
-    public OrderManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices)
+    public OrderManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<OrderManager> logger)
     {
         _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;
+        _logger = logger;
     }
 
     public IActionResult AddOrder(AddOrderRequest request, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation("Token is invalid add order");
             return new UnauthorizedResult();
         }
 
@@ -31,6 +34,7 @@ public class OrderManager: IOrderServices
 
         if (stock.Amount <= 0)
         {
+            _logger.LogInformation("Stock is empty add order");
             return new BadRequestObjectResult(new {message = "Stock is empty", success = false});
         }
 
@@ -53,10 +57,12 @@ public class OrderManager: IOrderServices
         try
         {
             _coffeeShopDbContex.SaveChanges();
+            _logger.LogInformation("Order added successfully");
             return new OkObjectResult(new { message = "Order added successfully", success = true });
         }
         catch (Exception e)
         {
+            _logger.LogError($"Error while adding order {e.Message}");
             return new BadRequestObjectResult(new {message = e.Message, success = false});
         }
     }
@@ -65,6 +71,7 @@ public class OrderManager: IOrderServices
     {
 if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation("Token is invalid get orders by user id");
             return new UnauthorizedResult();
         }
 
@@ -85,6 +92,7 @@ if (!_jwtServices.IsTokenValid(token))
                 o.Product
             }).ToList();
 
+        _logger.LogInformation("Orders fetched successfully");
         return new OkObjectResult(new {message = "Orders fetched successfully", success = true, data = ordersWithUserAndProduct});
     }
 
@@ -92,6 +100,7 @@ if (!_jwtServices.IsTokenValid(token))
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation("Token is invalid update order status");
             return new UnauthorizedResult();
         }
 
@@ -99,6 +108,7 @@ if (!_jwtServices.IsTokenValid(token))
 
         if (order  == null)
         {
+            _logger.LogInformation("Order not found update order status");
             return new NotFoundResult();
         }
 
@@ -107,11 +117,13 @@ if (!_jwtServices.IsTokenValid(token))
 
         if (user == null)
         {
+            _logger.LogInformation("User not found update order status");
             return new NotFoundResult();
         }
 
         if (user.Role != EnumRole.ADMIN)
         {
+            _logger.LogWarning("User is not admin update order status");
             return new UnauthorizedResult();
         }
 
@@ -121,10 +133,12 @@ if (!_jwtServices.IsTokenValid(token))
         try
         {
             _coffeeShopDbContex.SaveChanges();
+            _logger.LogInformation("Order status updated successfully");
             return new OkObjectResult(new {message = "Order status updated successfully", success = true});
         }
         catch (Exception e)
         {
+            _logger.LogError($"Error while updating order status Error: {e.Message}");
             return new BadRequestObjectResult(new {message = e.Message, success = false});
         }
     }
