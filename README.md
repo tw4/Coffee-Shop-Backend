@@ -51,6 +51,7 @@ This project utilizes the following technologies:
 - Docker
 - Azure SQL Edge
 - Stripe
+- Serilog
 
 ## Contributing
 
