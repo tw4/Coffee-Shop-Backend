@@ -11,17 +11,20 @@ public class StockManager:IStockServices
 {
     private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
+    private readonly Logger<StockManager> _logger;
 
-    public StockManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices)
+    public StockManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<StockManager> logger)
     {
         _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;
+        _logger = logger;
     }
 
     public IActionResult AddStock(AddStockRequest request, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation($"Token is invalid Add Stock");
             return new UnauthorizedResult();
         }
 
@@ -31,11 +34,13 @@ public class StockManager:IStockServices
 
         if (user == null)
         {
+            _logger.LogInformation($"User not found Add Stock");
             return new NotFoundObjectResult(new { message = "User not found", success = false });
         }
 
         if (user.Role != EnumRole.ADMIN)
         {
+            _logger.LogWarning($"User not admin Add Stock");
             return new UnauthorizedResult();
         }
 
@@ -43,6 +48,7 @@ public class StockManager:IStockServices
 
         if (product == null)
         {
+            _logger.LogInformation($"Product not found Add Stock");
             return new NotFoundObjectResult(new { message = "Product not found", success = false });
         }
 
@@ -57,10 +63,12 @@ public class StockManager:IStockServices
         try
         {
             _coffeeShopDbContex.SaveChanges();
+            _logger.LogInformation($"Stock added successfully Add Stock");
             return new OkObjectResult(new { message = "Stock added successfully", success = true });
         }
         catch (Exception e)
         {
+            _logger.LogError($"Error while adding stock Add Stock Error: {e.Message}");
             return new BadRequestObjectResult(new { message = e.Message, success = false });
         }
     }
@@ -69,6 +77,7 @@ public class StockManager:IStockServices
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation($"Token is invalid Update Stock");
             return new UnauthorizedResult();
         }
 
@@ -79,11 +88,13 @@ public class StockManager:IStockServices
 
         if (user == null)
         {
+            _logger.LogInformation($"User not found Update Stock");
             return new NotFoundObjectResult(new { message = "User not found", success = false });
         }
 
         if (user.Role != EnumRole.ADMIN)
         {
+            _logger.LogWarning($"User not admin Update Stock");
             return new UnauthorizedResult();
         }
 
@@ -91,6 +102,7 @@ public class StockManager:IStockServices
 
         if (stock == null)
         {
+            _logger.LogInformation($"Stock not found Update Stock");
             return new NotFoundObjectResult(new { message = "Stock not found", success = false });
         }
 
@@ -101,10 +113,12 @@ public class StockManager:IStockServices
        try
        {
               _coffeeShopDbContex.SaveChanges();
+              _logger.LogInformation($"Stock updated successfully Update Stock");
               return new OkObjectResult(new { message = "Stock updated successfully", success = true });
        }
        catch (Exception e)
        {
+              _logger.LogError($"Error while updating stock Update Stock Error: {e.Message}");
            return new BadRequestObjectResult(new { message = e.Message, success = false });
        }
     }
@@ -113,6 +127,7 @@ public class StockManager:IStockServices
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation($"Token is invalid Delete Stock");
             return new UnauthorizedResult();
         }
 
@@ -120,6 +135,7 @@ public class StockManager:IStockServices
 
         if (stock == null)
         {
+            _logger.LogInformation($"Stock not found Delete Stock");
             return new NotFoundObjectResult(new { message = "Stock not found", success = false });
         }
 
@@ -128,10 +144,12 @@ public class StockManager:IStockServices
         try
         {
             _coffeeShopDbContex.SaveChanges();
+            _logger.LogInformation($"Stock deleted successfully Delete Stock");
             return new OkObjectResult(new { message = "Stock deleted successfully", success = true });
         }
         catch (Exception e)
         {
+            _logger.LogError($"Error while deleting stock Delete Stock Error: {e.Message}");
             return new BadRequestObjectResult(new { message = e.Message, success = false });
         }
     }
@@ -140,6 +158,7 @@ public class StockManager:IStockServices
     {
         if (!_jwtServices.IsTokenValid(token))
         {
+            _logger.LogInformation($"Token is invalid Get Stock By Id");
             return new UnauthorizedResult();
         }
 
@@ -162,9 +181,11 @@ public class StockManager:IStockServices
 
         if (stockWithProduct == null)
         {
+            _logger.LogInformation($"Stock not found Get Stock By Id");
             return new NotFoundObjectResult(new { message = "Stock not found", success = false });
         }
 
+        _logger.LogInformation($"Stock found Get Stock By Id");
         return new OkObjectResult(new { message = "Stock found", success = true, data = stockWithProduct });
     }
 }
