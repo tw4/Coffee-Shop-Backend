@@ -9,10 +9,12 @@ namespace coffee_shop_backend.Business.Concreates;
 public class JwtManager: IJwtServices
 {
     private IConfiguration _configuration { get; }
+    private readonly Logger<JwtManager> _logger;
 
-    public JwtManager(IConfiguration configuration)
+    public JwtManager(IConfiguration configuration, Logger<JwtManager> logger)
     {
         _configuration = configuration;
+        _logger = logger;
     }
 
     public string GenerateJwtToken(long Id, string email)
@@ -30,7 +32,9 @@ public class JwtManager: IJwtServices
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key),
                 SecurityAlgorithms.HmacSha256Signature)
         };
+
         var token = tokenHandler.CreateToken(tokenDescriptor);
+        _logger.LogInformation($"Token generated");
         return tokenHandler.WriteToken(token);
     }
 
@@ -53,6 +57,7 @@ public class JwtManager: IJwtServices
             StringComparison.InvariantCultureIgnoreCase))
             throw new SecurityTokenException("Invalid token");
         var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        _logger.LogInformation($"get user id from token");
         return long.Parse(userId);
     }
 
@@ -78,13 +83,16 @@ public class JwtManager: IJwtServices
             if (jwtToken == null || !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
                     StringComparison.InvariantCultureIgnoreCase))
             {
+                _logger.LogInformation($"Invalid token is token valid");
                 return false;
             }
 
+            _logger.LogInformation($"Token is valid");
             return true;
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            _logger.LogInformation($"Invalid token Eror: {e.Message}");
             return false;
         }
     }

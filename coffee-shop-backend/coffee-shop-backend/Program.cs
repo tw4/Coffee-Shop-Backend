@@ -72,6 +72,7 @@ builder.Services.AddScoped<Logger<ProductManager>>();
 builder.Services.AddScoped<Logger<ProductElasticSearchManager<Product>>>();
 builder.Services.AddScoped<Logger<PaymentManager>>();
 builder.Services.AddScoped<Logger<OrderManager>>();
+builder.Services.AddScoped<Logger<JwtManager>>();
 
 var app = builder.Build();
 
