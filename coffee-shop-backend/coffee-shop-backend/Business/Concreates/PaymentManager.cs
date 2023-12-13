@@ -131,7 +131,7 @@ public class PaymentManager: IPaymentServices
         }
         catch (Exception e)
         {
-            _logger.LogError($"Error while saving order {e.Message}");
+            _logger.LogError($"Error while saving order",e);
             return new BadRequestObjectResult(new {message = "Error while saving order", success = false});
         }
     }

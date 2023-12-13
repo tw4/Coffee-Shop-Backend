@@ -65,7 +65,7 @@ public class ProductManager: IProductServices
         }
         catch (Exception e)
         {
-            _logger.LogError($"Product not added Error: {e.Message}");
+            _logger.LogError($"Product not added",e);
             return new BadRequestObjectResult(new { message = e.Message, success = false });
         }
     }
@@ -144,7 +144,7 @@ public class ProductManager: IProductServices
         }
         catch (Exception e)
         {
-            _logger.LogError($"Product not deleted Error: {e.Message}");
+            _logger.LogError($"Product not deleted",e);
             return new NotFoundObjectResult(new { message = e.Message, success = false });
         }
     }

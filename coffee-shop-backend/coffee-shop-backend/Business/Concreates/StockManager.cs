@@ -68,7 +68,7 @@ public class StockManager:IStockServices
         }
         catch (Exception e)
         {
-            _logger.LogError($"Error while adding stock Add Stock Error: {e.Message}");
+            _logger.LogError($"Error while adding stock Add Stock",e);
             return new BadRequestObjectResult(new { message = e.Message, success = false });
         }
     }
@@ -118,7 +118,7 @@ public class StockManager:IStockServices
        }
        catch (Exception e)
        {
-              _logger.LogError($"Error while updating stock Update Stock Error: {e.Message}");
+              _logger.LogError($"Error while updating stock Update Stock",e);
            return new BadRequestObjectResult(new { message = e.Message, success = false });
        }
     }
@@ -149,7 +149,7 @@ public class StockManager:IStockServices
         }
         catch (Exception e)
         {
-            _logger.LogError($"Error while deleting stock Delete Stock Error: {e.Message}");
+            _logger.LogError($"Error while deleting stock Delete Stock",e);
             return new BadRequestObjectResult(new { message = e.Message, success = false });
         }
     }

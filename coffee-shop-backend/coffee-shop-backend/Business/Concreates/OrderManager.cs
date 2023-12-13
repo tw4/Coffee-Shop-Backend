@@ -62,14 +62,14 @@ public class OrderManager: IOrderServices
         }
         catch (Exception e)
         {
-            _logger.LogError($"Error while adding order {e.Message}");
+            _logger.LogError($"Error while adding order",e);
             return new BadRequestObjectResult(new {message = e.Message, success = false});
         }
     }
 
     public IActionResult GetOrdersByUserId(string token)
     {
-if (!_jwtServices.IsTokenValid(token))
+        if (!_jwtServices.IsTokenValid(token))
         {
             _logger.LogInformation("Token is invalid get orders by user id");
             return new UnauthorizedResult();
@@ -138,7 +138,7 @@ if (!_jwtServices.IsTokenValid(token))
         }
         catch (Exception e)
         {
-            _logger.LogError($"Error while updating order status Error: {e.Message}");
+            _logger.LogError($"Error while updating order status",e);
             return new BadRequestObjectResult(new {message = e.Message, success = false});
         }
     }

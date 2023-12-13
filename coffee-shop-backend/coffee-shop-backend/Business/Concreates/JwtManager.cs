@@ -92,7 +92,7 @@ public class JwtManager: IJwtServices
         }
         catch (Exception e)
         {
-            _logger.LogInformation($"Invalid token Eror: {e.Message}");
+            _logger.LogError($"Invalid token is token valid",e);
             return false;
         }
     }

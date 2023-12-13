@@ -45,7 +45,7 @@ public class UserManager : IUserServices
         }
         catch (Exception e)
         {
-            _logger.LogError($"User added failed. Error: {e.Message}");
+            _logger.LogError($"User added failed.",e);
             return new BadRequestObjectResult( new { message = e.Message});
         }
     }
@@ -96,7 +96,7 @@ public class UserManager : IUserServices
         }
         catch (Exception e)
         {
-            _logger.LogError($"User deleted failed. Error: {e.Message}");
+            _logger.LogError($"User deleted failed.",e);
             return new BadRequestObjectResult(new { message = e.Message });
         }
     }
@@ -130,7 +130,7 @@ public class UserManager : IUserServices
         }
         catch (Exception e)
         {
-            _logger.LogError($"User password updated failed. Error: {e.Message}");
+            _logger.LogError($"User password updated failed.",e);
             return new BadRequestObjectResult(new { message = e.Message });
         }
     }
@@ -165,7 +165,7 @@ public class UserManager : IUserServices
         }
         catch (Exception e)
         {
-            _logger.LogError($"User information updated failed. Error: {e.Message}");
+            _logger.LogError($"User information updated failed.",e);
             return new BadRequestObjectResult(new { message = e.Message });
         }
     }
