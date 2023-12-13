@@ -68,6 +68,7 @@ builder.Services.AddScoped<IPaymentServices,PaymentManager>();
 builder.Services.AddScoped<Logger<UserManager>>();
 builder.Services.AddScoped<Logger<StockManager>>();
 builder.Services.AddScoped<Logger<RedisManager>>();
+builder.Services.AddScoped<Logger<ProductManager>>();
 
 var app = builder.Build();
 
