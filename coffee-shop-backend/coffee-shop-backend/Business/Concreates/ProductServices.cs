@@ -8,15 +8,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace coffee_shop_backend.Business.Concreates;
 
-public class ProductManager: IProductServices
+public class ProductServices: IProductServices
 {
 
     private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
     private readonly IRedisServices _redisServices;
-    private readonly Logger<ProductManager> _logger;
+    private readonly Logger<ProductServices> _logger;
 
-    public ProductManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, IRedisServices redisServices, Logger<ProductManager> logger)
+    public ProductServices(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, IRedisServices redisServices, Logger<ProductServices> logger)
     {
         _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;

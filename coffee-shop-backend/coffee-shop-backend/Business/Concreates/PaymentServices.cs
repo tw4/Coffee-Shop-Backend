@@ -10,14 +10,14 @@ using Product = coffee_shop_backend.Entitys.Concreates.Product;
 
 namespace coffee_shop_backend.Business.Concreates;
 
-public class PaymentManager: IPaymentServices
+public class PaymentServices: IPaymentServices
 {
     private readonly IConfiguration _configuration;
     private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
-    private readonly Logger<PaymentManager> _logger;
+    private readonly Logger<PaymentServices> _logger;
 
-    public PaymentManager(IConfiguration configuration, CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<PaymentManager> logger)
+    public PaymentServices(IConfiguration configuration, CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<PaymentServices> logger)
     {
         _configuration = configuration;
         _coffeeShopDbContex = coffeeShopDbContex;

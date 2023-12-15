@@ -6,16 +6,16 @@ using Nest;
 
 namespace coffee_shop_backend.Business.Concreates;
 
-public class ProductElasticSearchManager<T>: IProductElasticSearchServices<T> where T : class
+public class ProductElasticSearchServices<T>: IProductElasticSearchServices<T> where T : class
 {
 
     private readonly ElasticClient _client;
     private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
-    private readonly Logger<ProductElasticSearchManager<Product>> _logger;
+    private readonly Logger<ProductElasticSearchServices<Product>> _logger;
 
 
-    public ProductElasticSearchManager(ElasticClient client, CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<ProductElasticSearchManager<Product>> logger)
+    public ProductElasticSearchServices(ElasticClient client, CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<ProductElasticSearchServices<Product>> logger)
     {
         var settings = new ConnectionSettings( new Uri("http://localhost:9200"))
             .DefaultIndex("coffee-shop");

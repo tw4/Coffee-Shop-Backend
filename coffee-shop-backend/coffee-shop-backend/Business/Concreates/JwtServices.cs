@@ -6,12 +6,12 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace coffee_shop_backend.Business.Concreates;
 
-public class JwtManager: IJwtServices
+public class JwtServices: IJwtServices
 {
     private IConfiguration _configuration { get; }
-    private readonly Logger<JwtManager> _logger;
+    private readonly Logger<JwtServices> _logger;
 
-    public JwtManager(IConfiguration configuration, Logger<JwtManager> logger)
+    public JwtServices(IConfiguration configuration, Logger<JwtServices> logger)
     {
         _configuration = configuration;
         _logger = logger;

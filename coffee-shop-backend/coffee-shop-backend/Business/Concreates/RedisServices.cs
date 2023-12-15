@@ -3,13 +3,13 @@ using StackExchange.Redis;
 
 namespace coffee_shop_backend.Business.Concreates;
 
-public class RedisManager : IRedisServices
+public class RedisServices : IRedisServices
 {
 
     private readonly ConnectionMultiplexer _redis;
-    private readonly Logger<RedisManager> _logger;
+    private readonly Logger<RedisServices> _logger;
 
-    public RedisManager(Logger<RedisManager> logger)
+    public RedisServices(Logger<RedisServices> logger)
     {
         _redis = ConnectionMultiplexer.Connect("localhost:6379");
         _logger = logger;
@@ -18,14 +18,14 @@ public class RedisManager : IRedisServices
     public string GetValue(string key)
     {
         IDatabase db = _redis.GetDatabase();
-        _logger.LogInformation("RedisManager.GetValue() method is called.");
+        _logger.LogInformation("RedisServices.GetValue() method is called.");
         return db.StringGet(key);
     }
 
     public void SetValue(string key, string value, TimeSpan expiry)
     {
         IDatabase db = _redis.GetDatabase();
-        _logger.LogInformation("RedisManager.SetValue() method is called.");
+        _logger.LogInformation("RedisServices.SetValue() method is called.");
         db.StringSet(key, value, expiry);
     }
 }

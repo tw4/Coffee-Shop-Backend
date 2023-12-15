@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace coffee_shop_backend.Business.Concreates;
 
-public class OrderManager: IOrderServices
+public class OrderServices: IOrderServices
 {
     private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
-    private readonly Logger<OrderManager> _logger;
+    private readonly Logger<OrderServices> _logger;
 
-    public OrderManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<OrderManager> logger)
+    public OrderServices(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<OrderServices> logger)
     {
         _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;

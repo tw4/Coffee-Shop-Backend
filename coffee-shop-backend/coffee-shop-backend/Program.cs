@@ -56,24 +56,24 @@ builder.Services.AddCors(options =>
 
 
 // Add scoped services
-builder.Services.AddScoped<IJwtServices, JwtManager>();
-builder.Services.AddScoped<IAuthServices, AuthManager>();
-builder.Services.AddScoped<IUserServices, UserManager>();
-builder.Services.AddScoped<IProductServices, ProductManager>();
-builder.Services.AddScoped<IStockServices, StockManager>();
-builder.Services.AddScoped<IOrderServices, OrderManager>();
-builder.Services.AddScoped<IRedisServices, RedisManager>();
-builder.Services.AddScoped<IProductElasticSearchServices<Product>, ProductElasticSearchManager<Product>>();
-builder.Services.AddScoped<IPaymentServices,PaymentManager>();
-builder.Services.AddScoped<Logger<UserManager>>();
-builder.Services.AddScoped<Logger<StockManager>>();
-builder.Services.AddScoped<Logger<RedisManager>>();
-builder.Services.AddScoped<Logger<ProductManager>>();
-builder.Services.AddScoped<Logger<ProductElasticSearchManager<Product>>>();
-builder.Services.AddScoped<Logger<PaymentManager>>();
-builder.Services.AddScoped<Logger<OrderManager>>();
-builder.Services.AddScoped<Logger<JwtManager>>();
-builder.Services.AddScoped<Logger<AuthManager>>();
+builder.Services.AddScoped<IJwtServices, JwtServices>();
+builder.Services.AddScoped<IAuthServices, AuthServices>();
+builder.Services.AddScoped<IUserServices, UserServices>();
+builder.Services.AddScoped<IProductServices, ProductServices>();
+builder.Services.AddScoped<IStockServices, StockServices>();
+builder.Services.AddScoped<IOrderServices, OrderServices>();
+builder.Services.AddScoped<IRedisServices, RedisServices>();
+builder.Services.AddScoped<IProductElasticSearchServices<Product>, ProductElasticSearchServices<Product>>();
+builder.Services.AddScoped<IPaymentServices,PaymentServices>();
+builder.Services.AddScoped<Logger<UserServices>>();
+builder.Services.AddScoped<Logger<StockServices>>();
+builder.Services.AddScoped<Logger<RedisServices>>();
+builder.Services.AddScoped<Logger<ProductServices>>();
+builder.Services.AddScoped<Logger<ProductElasticSearchServices<Product>>>();
+builder.Services.AddScoped<Logger<PaymentServices>>();
+builder.Services.AddScoped<Logger<OrderServices>>();
+builder.Services.AddScoped<Logger<JwtServices>>();
+builder.Services.AddScoped<Logger<AuthServices>>();
 
 var app = builder.Build();
 

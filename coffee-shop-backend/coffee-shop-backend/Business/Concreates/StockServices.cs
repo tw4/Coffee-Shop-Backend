@@ -7,13 +7,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace coffee_shop_backend.Business.Concreates;
 
-public class StockManager:IStockServices
+public class StockServices:IStockServices
 {
     private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
-    private readonly Logger<StockManager> _logger;
+    private readonly Logger<StockServices> _logger;
 
-    public StockManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<StockManager> logger)
+    public StockServices(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<StockServices> logger)
     {
         _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;

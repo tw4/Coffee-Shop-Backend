@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace coffee_shop_backend.Business.Concreates;
 
-public class AuthManager: IAuthServices
+public class AuthServices: IAuthServices
 {
     private readonly CoffeeShopDbContex _coffeeShopDbContex;
     private readonly IJwtServices _jwtServices;
-    private readonly Logger<AuthManager> _logger;
+    private readonly Logger<AuthServices> _logger;
 
-    public AuthManager(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<AuthManager> logger)
+    public AuthServices(CoffeeShopDbContex coffeeShopDbContex, IJwtServices jwtServices, Logger<AuthServices> logger)
     {
         _coffeeShopDbContex = coffeeShopDbContex;
         _jwtServices = jwtServices;
