@@ -19,9 +19,9 @@ IConfiguration configuration = new ConfigurationBuilder()
     .Build();
 
 // serilog configuration
-Log.Logger = new LoggerConfiguration().CreateBootstrapLogger();
-builder.Host.UseSerilog(((ctx, lc) => lc
-    .ReadFrom.Configuration(ctx.Configuration)));
+// Log.Logger = new LoggerConfiguration().CreateBootstrapLogger();
+// builder.Host.UseSerilog(((ctx, lc) => lc
+//     .ReadFrom.Configuration(ctx.Configuration)));
 
 // connection string for azure sql edge
 builder.Services.AddDbContext<CoffeeShopDbContex>(options =>
@@ -86,7 +86,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseSerilogRequestLogging();
+// app.UseSerilogRequestLogging();
 app.UseCors();
 app.MapControllers();
 app.Run();
