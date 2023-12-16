@@ -22,7 +22,7 @@ public class CoffeeShopDbContex : DbContext
         // connection string for azure sql edge
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer(_configuration["ConectionStrings:DefaultConnection"]);
+            optionsBuilder.UseSqlServer(_configuration["ConnectionStrings:DefaultConnection"]);
         }
     }
 

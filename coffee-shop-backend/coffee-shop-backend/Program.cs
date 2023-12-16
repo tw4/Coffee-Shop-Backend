@@ -25,7 +25,7 @@ IConfiguration configuration = new ConfigurationBuilder()
 
 // connection string for azure sql edge
 builder.Services.AddDbContext<CoffeeShopDbContex>(options =>
-    options.UseSqlServer(configuration["ConectionStrings:DefaultConnection"]));
+    options.UseSqlServer(configuration["ConnectionStrings:DefaultConnection"]));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
