@@ -18,10 +18,16 @@ IConfiguration configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
     .Build();
 
-// serilog configuration
-// Log.Logger = new LoggerConfiguration().CreateBootstrapLogger();
-// builder.Host.UseSerilog(((ctx, lc) => lc
-//     .ReadFrom.Configuration(ctx.Configuration)));
+// setilog configuration
+var logger= new LoggerConfiguration()
+    .ReadFrom.Configuration(configuration)
+    .WriteTo.Console()
+    .WriteTo.MSSqlServer(
+        connectionString: configuration["ConnectionStrings:DefaultConnection"],
+        sinkOptions: new MSSqlServerSinkOptions { TableName = "Logs" })
+    .CreateLogger();
+
+Log.Logger = logger;
 
 // connection string for azure sql edge
 builder.Services.AddDbContext<CoffeeShopDbContex>(options =>
@@ -30,6 +36,7 @@ builder.Services.AddDbContext<CoffeeShopDbContex>(options =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSerilog();
 
 // elasticsearch
 builder.Services.AddSingleton<ElasticClient>(sp =>
@@ -86,7 +93,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// app.UseSerilogRequestLogging();
+app.UseSerilogRequestLogging();
 app.UseCors();
 app.MapControllers();
 app.Run();
