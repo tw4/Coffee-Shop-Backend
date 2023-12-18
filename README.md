@@ -30,9 +30,9 @@ To run the project on your local machine, follow these steps:
    [Exception] nvarchar(max) NULL,
    [Properties] nvarchar(max) NULL
 
-   CONSTRAINT [PK_Logs] PRIMARY KEY CLUSTERED ([Id] ASC)
-);
+   CONSTRAINT [PK_Logs] PRIMARY KEY CLUSTERED ([Id] ASC));
     ```
+
 5. Create database migrations:
     ```bash
     dotnet ef migrations add initialcreate
