@@ -1,31 +1,6 @@
 ﻿version: '3'
 
 services:
-  # PostgreSQL service
-  postgres:
-    image: postgres
-    container_name: coffee-shop-db
-    environment:
-      POSTGRES_DB: mydatabase
-      POSTGRES_USER: myuser
-      POSTGRES_PASSWORD: mypassword
-    ports:
-      - "5432:5432"  # PostgreSQL port
-    networks:
-      - pg-network
-
-  # pgAdmin service
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: coffee-shop-pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "8080:80"  # pgAdmin port
-    networks:
-      - pg-network
-
   # Redis service
   redis:
     image: redis
