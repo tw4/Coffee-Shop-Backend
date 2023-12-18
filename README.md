@@ -18,15 +18,19 @@ To run the project on your local machine, follow these steps:
     ```bash
     dotnet restore
     ```
-4. Apply database migrations:
+4. Create database migrations:
+    ```bash
+    dotnet ef migrations add initialcreate
+    ```
+5. Apply database migrations:
     ```bash
     dotnet ef database update
     ```
-5. Run the project:
+6. Run the project:
     ```bash
     dotnet run
     ```
-6. The API will run by default at `https://localhost:5001`.
+7. The API will run by default at `https://localhost:5001`.
 
 ## Usage
 
