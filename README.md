@@ -18,19 +18,34 @@ To run the project on your local machine, follow these steps:
     ```bash
     dotnet restore
     ```
-4. Create database migrations:
+4. Create database table for Logs:
+    ```sql
+    CREATE TABLE [Logs] (
+
+   [Id] int IDENTITY(1,1) NOT NULL,
+   [Message] nvarchar(max) NULL,
+   [MessageTemplate] nvarchar(max) NULL,
+   [Level] nvarchar(128) NULL,
+   [TimeStamp] datetime NOT NULL,
+   [Exception] nvarchar(max) NULL,
+   [Properties] nvarchar(max) NULL
+
+   CONSTRAINT [PK_Logs] PRIMARY KEY CLUSTERED ([Id] ASC)
+);
+    ```
+5. Create database migrations:
     ```bash
     dotnet ef migrations add initialcreate
     ```
-5. Apply database migrations:
+6. Apply database migrations:
     ```bash
     dotnet ef database update
     ```
-6. Run the project:
+7. Run the project:
     ```bash
     dotnet run
     ```
-7. The API will run by default at `https://localhost:5001`.
+8. The API will run by default at `https://localhost:5001`.
 
 ## Usage
 
