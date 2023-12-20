@@ -50,6 +50,19 @@ public class AuthServices: IAuthServices
            _logger.LogInformation("Token is invalid Auth");
            return new UnauthorizedResult();
        }
+
+       long userId = _jwtServices.GetUserIdFromToken(token);
+       string userEmail = _jwtServices.GetUserEmailFromToken(token);
+
+       User user = _coffeeShopDbContex.Users.FirstOrDefault(u => u.Id == userId && u.Email == userEmail);
+
+       if (user == null)
+       {
+              _logger.LogInformation("User is null Auth");
+              return new BadRequestObjectResult(new {message = "User is null"});
+       }
+
+
        _logger.LogInformation("Token is valid Auth");
        return new OkObjectResult(new { message = "Token is valid", sucsess = isTokenValid});
     }
