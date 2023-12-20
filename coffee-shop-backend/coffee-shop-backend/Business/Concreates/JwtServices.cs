@@ -61,6 +61,29 @@ public class JwtServices: IJwtServices
         return long.Parse(userId);
     }
 
+    public string GetUserEmailFromToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]);
+        var tokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateIssuer = false,
+            ValidateAudience = false,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+        var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out var validatedToken);
+        var jwtToken = validatedToken as JwtSecurityToken;
+        if (jwtToken == null || !jwtToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256,
+            StringComparison.InvariantCultureIgnoreCase))
+            throw new SecurityTokenException("Invalid token");
+        var userEmail = principal.FindFirst(ClaimTypes.Email)?.Value;
+        _logger.LogInformation($"get user email from token");
+        return userEmail;
+    }
+
     public bool IsTokenValid(string token)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
