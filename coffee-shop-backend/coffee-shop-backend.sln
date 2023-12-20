@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "coffee-shop-backend", "coffee-shop-backend\coffee-shop-backend.csproj", "{49EF67E0-E410-407F-9964-CCE27A82E6F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "coffee-shop-backend.Tests", "coffee-shop-backend.Tests\coffee-shop-backend.Tests.csproj", "{B94D468D-B648-4DFD-9477-E46535BE078B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{49EF67E0-E410-407F-9964-CCE27A82E6F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{49EF67E0-E410-407F-9964-CCE27A82E6F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{49EF67E0-E410-407F-9964-CCE27A82E6F4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B94D468D-B648-4DFD-9477-E46535BE078B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B94D468D-B648-4DFD-9477-E46535BE078B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B94D468D-B648-4DFD-9477-E46535BE078B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B94D468D-B648-4DFD-9477-E46535BE078B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
