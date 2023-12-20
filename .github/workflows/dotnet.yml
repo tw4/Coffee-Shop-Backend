@@ -8,7 +8,7 @@ on:
     - 'README.md'
 
 env:
-  DOTNET_VERSION: '6.0.x'
+  DOTNET_VERSION: '.0.x'
 
 jobs:
   build-and-test:
@@ -28,7 +28,5 @@ jobs:
 
     - name: Install dependencies and Test
       run: |
-        cd coffee-shop-backend  # Bu adımı ekledik
         dotnet restore
         dotnet test --no-restore --verbosity normal
-      working-directory: ./coffee-shop-backend
