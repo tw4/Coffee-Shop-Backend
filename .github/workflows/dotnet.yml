@@ -26,8 +26,9 @@ jobs:
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Install dependencies
-      run: dotnet restore
-
-    - name: Test
-      run: dotnet test --no-restore --verbosity normal
+    - name: Install dependencies and Test
+      run: |
+        cd coffee-shop-backend  # Bu adımı ekledik
+        dotnet restore
+        dotnet test --no-restore --verbosity normal
+      working-directory: ./coffee-shop-backend
