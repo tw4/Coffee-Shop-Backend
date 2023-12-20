@@ -13,7 +13,7 @@ public class CoffeeShopDbContex : DbContext
     public DbSet<Stock> Stocks { get; set; }
     public DbSet<Order> Orders { get; set; }
 
-    public CoffeeShopDbContex(DbContextOptions<CoffeeShopDbContex> options) : base(options)
+    public CoffeeShopDbContex(DbContextOptions options) : base(options)
     {
     }
 
