@@ -1,37 +1,33 @@
-name: .NET Test
+name: build and test
 
 on:
   push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ main ]
+    paths-ignore:
+    - 'README.md'
+
+env:
+  DOTNET_VERSION: '6.0.x'
 
 jobs:
   build-and-test:
-
-    runs-on: ubuntu-latest
+    name: build-and-test-${{matrix.os}}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macOS-latest]
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v2
 
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 8.x 
+        dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: Restore dependencies
+    - name: Install dependencies
       run: dotnet restore
 
-    - name: Build
-      run: dotnet build --no-restore
-
-    - name: Run Tests
-      run: dotnet test --no-build --verbosity normal
-
-    - name: Publish Test Results
-      if: ${{ always() }}
-      uses: actions/upload-artifact@v2
-      with:
-        name: test-results
-        path: '**/TestResults/*.xml'
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
