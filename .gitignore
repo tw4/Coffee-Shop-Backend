@@ -411,3 +411,4 @@ coffee-shop-backend/coffee-shop-backend/obj
 coffee-shop-backend/coffee-shop-backend/bin/*
 
 coffee-shop-backend/coffee-shop-backend/appsettings.json
+.DS_Store
