@@ -30,4 +30,15 @@ public class TestHelper
             .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true)
             .Build();
     }
+
+    public static void DeleteUsersOnDatabase(CoffeeShopTestDbContext context)
+    {
+        // TODO: this is not a good way to delete all users on database because it is slow
+        var users = context.Users.ToList();
+        foreach (var user in users)
+        {
+            context.Users.Remove(user);
+        }
+        context.SaveChanges();
+    }
 }
