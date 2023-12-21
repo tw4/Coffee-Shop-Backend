@@ -15,7 +15,7 @@ public class UserServicesTest
 
     public UserServicesTest()
     {
-        _context = TestHelper.CreateCoffeeShopTestDbContext();
+        _context = TestHelper.CreateCoffeeShopTestDbContext("UserServicesTest");
         _logger = new Logger<UserServices>(new LoggerFactory());
         _jwtServices = new JwtServices(TestHelper.CreateConfiguration(), new Logger<JwtServices>(new LoggerFactory()));
     }

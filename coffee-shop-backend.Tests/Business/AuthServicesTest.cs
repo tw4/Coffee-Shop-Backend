@@ -16,7 +16,7 @@ public class AuthServicesTest
 
     public AuthServicesTest()
     {
-        _context = TestHelper.CreateCoffeeShopTestDbContext();
+        _context = TestHelper.CreateCoffeeShopTestDbContext("AuthServicesTest");
         _jwtServices = new JwtServices(TestHelper.CreateConfiguration(), new Logger<JwtServices>( new LoggerFactory()));
         _mockLogger = new Logger<AuthServices>(new LoggerFactory());
     }

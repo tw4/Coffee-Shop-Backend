@@ -8,10 +8,10 @@ namespace coffee_shop_backend.Tests;
 
 public class TestHelper
 {
-    public static CoffeeShopTestDbContext CreateCoffeeShopTestDbContext()
+    public static CoffeeShopTestDbContext CreateCoffeeShopTestDbContext(string databaseName)
     {
         var options = new DbContextOptionsBuilder<CoffeeShopTestDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase")
+            .UseInMemoryDatabase(databaseName: databaseName)
             .Options;
 
         var context = new CoffeeShopTestDbContext(options);
