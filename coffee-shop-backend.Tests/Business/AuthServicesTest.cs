@@ -3,9 +3,7 @@ using coffee_shop_backend.Business.Concreates;
 using coffee_shop_backend.Dto.Auth;
 using coffee_shop_backend.Entitys.Concreates;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Moq;
 
 namespace coffee_shop_backend.Tests.Business;
 
@@ -13,10 +11,14 @@ public class AuthServicesTest
 {
 
     private readonly CoffeeShopTestDbContext _context;
+    private readonly IJwtServices _jwtServices;
+    private readonly Logger<AuthServices> _mockLogger;
 
     public AuthServicesTest()
     {
         _context = TestHelper.CreateCoffeeShopTestDbContext();
+        _jwtServices = new JwtServices(TestHelper.CreateConfiguration(), new Logger<JwtServices>( new LoggerFactory()));
+        _mockLogger = new Logger<AuthServices>(new LoggerFactory());
     }
 
     [Fact]
@@ -36,9 +38,7 @@ public class AuthServicesTest
         _context.Users.Add(user);
         _context.SaveChanges();
 
-        var mockLogger = new Logger<AuthServices>( new LoggerFactory());
-        var mockJwtService = new Mock<IJwtServices>();
-        var authServices = new AuthServices(_context, mockJwtService.Object, mockLogger);
+        var authServices = new AuthServices(_context, _jwtServices, _mockLogger);
 
         var result = authServices.UserLogin(new LoginRequest()
         {
@@ -67,9 +67,7 @@ public class AuthServicesTest
         _context.Users.Add(user);
         _context.SaveChanges();
 
-        var mockLogger = new Logger<AuthServices>( new LoggerFactory());
-        var mockJwtService = new Mock<IJwtServices>();
-        var authServices = new AuthServices(_context, mockJwtService.Object,mockLogger);
+        var authServices = new AuthServices(_context,_jwtServices ,_mockLogger);
 
         var result = authServices.UserLogin(new LoginRequest()
         {
@@ -98,13 +96,9 @@ public class AuthServicesTest
         _context.Users.Add(user);
         _context.SaveChanges();
 
-        var mockLogger = new Logger<AuthServices>( new LoggerFactory());
-        var mockJwtService = new JwtServices( new ConfigurationBuilder()
-            .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true)
-            .Build(), new Logger<JwtServices>( new LoggerFactory()));
-        var authServices = new AuthServices(_context, mockJwtService,mockLogger);
+        var authServices = new AuthServices(_context, _jwtServices, _mockLogger);
 
-        var token = mockJwtService.GenerateJwtToken(1, "test_email_1");
+        var token = _jwtServices.GenerateJwtToken(1, "test_email_1");
         var result = authServices.Auth(token);
 
         TestHelper.DeleteUserOnDatabase(_context, user);
@@ -128,13 +122,9 @@ public class AuthServicesTest
         _context.Users.Add(user);
         _context.SaveChanges();
 
-        var mockLogger = new Logger<AuthServices>( new LoggerFactory());
-        var mockJwtService = new JwtServices( new ConfigurationBuilder()
-            .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true)
-            .Build(), new Logger<JwtServices>( new LoggerFactory()));
-        var authServices = new AuthServices(_context, mockJwtService,mockLogger);
+        var authServices = new AuthServices(_context, _jwtServices, _mockLogger);
 
-        var token = mockJwtService.GenerateJwtToken(1, "test_email_2");
+        var token = _jwtServices.GenerateJwtToken(1, "test_email_2");
         var result = authServices.Auth(token);
 
         TestHelper.DeleteUserOnDatabase(_context, user);
@@ -158,11 +148,7 @@ public class AuthServicesTest
         _context.Users.Add(user);
         _context.SaveChanges();
 
-        var mockLogger = new Logger<AuthServices>( new LoggerFactory());
-        var mockJwtService = new JwtServices( new ConfigurationBuilder()
-            .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true)
-            .Build(), new Logger<JwtServices>( new LoggerFactory()));
-        var authServices = new AuthServices(_context, mockJwtService,mockLogger);
+        var authServices = new AuthServices(_context, _jwtServices, _mockLogger);
 
         var result = authServices.Auth(null);
 
@@ -187,13 +173,9 @@ public class AuthServicesTest
         _context.Users.Add(user);
         _context.SaveChanges();
 
-        var mockLogger = new Logger<AuthServices>( new LoggerFactory());
-        var mockJwtService = new JwtServices( new ConfigurationBuilder()
-            .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true)
-            .Build(), new Logger<JwtServices>( new LoggerFactory()));
-        var authServices = new AuthServices(_context, mockJwtService,mockLogger);
+        var authServices = new AuthServices(_context, _jwtServices, _mockLogger);
 
-        var token = mockJwtService.GenerateJwtToken(1, "test_email_1");
+        var token = _jwtServices.GenerateJwtToken(1, "test_email_1");
         var result = authServices.Auth(token + "1");
 
         TestHelper.DeleteUserOnDatabase(_context, user);
