@@ -8,10 +8,10 @@ namespace coffee_shop_backend.Tests;
 
 public class TestHelper
 {
-    public static CoffeeShopTestDbContext CreateCoffeeShopTestDbContext()
+    public static CoffeeShopTestDbContext CreateCoffeeShopTestDbContext(string databaseName)
     {
         var options = new DbContextOptionsBuilder<CoffeeShopTestDbContext>()
-            .UseInMemoryDatabase(databaseName: "TestDatabase")
+            .UseInMemoryDatabase(databaseName: databaseName)
             .Options;
 
         var context = new CoffeeShopTestDbContext(options);
@@ -29,5 +29,16 @@ public class TestHelper
         return new ConfigurationBuilder()
             .AddJsonFile("appsettings.Development.json", optional: false, reloadOnChange: true)
             .Build();
+    }
+
+    public static void DeleteUsersOnDatabase(CoffeeShopTestDbContext context)
+    {
+        // TODO: this is not a good way to delete all users on database because it is slow
+        var users = context.Users.ToList();
+        foreach (var user in users)
+        {
+            context.Users.Remove(user);
+        }
+        context.SaveChanges();
     }
 }
