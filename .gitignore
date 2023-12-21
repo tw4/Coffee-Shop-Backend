@@ -412,3 +412,4 @@ coffee-shop-backend/coffee-shop-backend/bin/*
 
 coffee-shop-backend/coffee-shop-backend/appsettings.json
 .DS_Store
+coffee-shop-backend/Migrations
