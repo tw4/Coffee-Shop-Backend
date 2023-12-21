@@ -71,6 +71,8 @@ This project utilizes the following technologies:
 - Azure SQL Edge
 - Stripe
 - Serilog
+- Testing
+- xUnit.net
 
 ## Contributing
 
