@@ -27,7 +27,7 @@ public class PaymentController: ControllerBase
         {
             return BadRequest();
         }
-        Response.Headers.Add("Location", session.Url);
+
         return new OkObjectResult(new { Location = session.Url});
     }
 
