@@ -179,7 +179,8 @@ public class StockServices:IStockServices
                 }
             });
 
-        if (stockWithProduct == null)
+
+        if (!stockWithProduct.Any())
         {
             _logger.LogInformation($"Stock not found Get Stock By Id");
             return new NotFoundObjectResult(new { message = "Stock not found", success = false });
