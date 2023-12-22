@@ -1,11 +1,3 @@
-using coffee_shop_backend.Business.Abstracts;
-using coffee_shop_backend.Business.Concreates;
-using coffee_shop_backend.Contexs;
-using coffee_shop_backend.Dto.Stock;
-using coffee_shop_backend.Entitys.Concreates;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
 namespace coffee_shop_backend.Tests.Business;
 
 public class StockServicesTest
