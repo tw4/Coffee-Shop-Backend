@@ -11,9 +11,9 @@ public class AuthController: ControllerBase
 {
 
     private readonly IAuthServices _authServices;
-    private readonly ILogger<AuthController> _logger;
+    private readonly Logger<AuthController> _logger;
 
-    public AuthController(IAuthServices authServices, ILogger<AuthController> logger)
+    public AuthController(IAuthServices authServices, Logger<AuthController> logger)
     {
         _authServices = authServices;
         _logger = logger;
