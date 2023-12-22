@@ -61,4 +61,14 @@ public class TestHelper
         }
         context.SaveChanges();
     }
+
+    public static void DeleteOrdersOnDatabase(CoffeeShopTestDbContext context)
+    {
+        var orders = context.Orders.ToList();
+        foreach (var order in orders)
+        {
+            context.Orders.Remove(order);
+        }
+        context.SaveChanges();
+    }
 }
