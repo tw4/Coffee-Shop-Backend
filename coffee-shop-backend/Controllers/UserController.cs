@@ -22,7 +22,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    public IActionResult getUserById([FromHeader] string token)
+    public IActionResult GetUserById([FromHeader] string token)
     {
         return _userServices.GetUserById(token);
     }
