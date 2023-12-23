@@ -11,7 +11,6 @@ namespace coffee_shop_backend.Tests.Controllers;
 public class AuthControllerTest
 {
     private readonly IAuthServices _mockAuthServices;
-    private readonly Logger<AuthController> _mockLogger;
 
 
     public AuthControllerTest()
@@ -23,13 +22,12 @@ public class AuthControllerTest
         mockAuthServices.Setup(x => x.Auth(It.IsAny<string>())).Returns(new OkResult());
 
         _mockAuthServices = mockAuthServices.Object;
-        _mockLogger = mockLogger.Object;
     }
 
     [Fact]
     public void LoginTest()
     {
-        var controller = new AuthController(_mockAuthServices, _mockLogger);
+        var controller = new AuthController(_mockAuthServices);
         var result = controller.Login(new LoginRequest());
         Assert.IsType<OkResult>(result);
     }
@@ -37,7 +35,7 @@ public class AuthControllerTest
     [Fact]
     public void VerifyTokenTest()
     {
-        var controller = new AuthController(_mockAuthServices, _mockLogger);
+        var controller = new AuthController(_mockAuthServices);
         var result = controller.VerifyToken("token");
         Assert.IsType<OkResult>(result);
 

@@ -11,12 +11,10 @@ public class AuthController: ControllerBase
 {
 
     private readonly IAuthServices _authServices;
-    private readonly Logger<AuthController> _logger;
 
-    public AuthController(IAuthServices authServices, Logger<AuthController> logger)
+    public AuthController(IAuthServices authServices)
     {
         _authServices = authServices;
-        _logger = logger;
     }
 
     [HttpPost]
