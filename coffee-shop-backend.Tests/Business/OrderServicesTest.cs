@@ -10,13 +10,13 @@ namespace coffee_shop_backend.Tests.Business;
 
 public class OrderServicesTest : IClassFixture<OrderServicesFixture>
 {
-    private readonly CoffeeShopTestDbContext _contex;
+    private readonly CoffeeShopTestDbContext _context;
     private readonly OrderServicesFixture _fixture;
 
     public OrderServicesTest(OrderServicesFixture fixture)
     {
         _fixture = fixture;
-        _contex = fixture.GetContext();
+        _context = fixture.GetContext();
         _fixture.Dispose();
     }
 
@@ -27,9 +27,9 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
         var product = TestHelper.GetTestProductWithStock();
         var user = TestHelper.GetTestUser();
 
-        _contex.Users.Add(user);
-        _contex.Products.Add(product);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.Products.Add(product);
+        _context.SaveChanges();
 
         var request = new AddOrderRequest()
         {
@@ -54,9 +54,9 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
         var user = TestHelper.GetTestUser();
 
         product.Stock.Amount = 0;
-        _contex.Users.Add(user);
-        _contex.Products.Add(product);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.Products.Add(product);
+        _context.SaveChanges();
 
         var request = new AddOrderRequest()
         {
@@ -101,10 +101,10 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
         var user = TestHelper.GetTestUser();
         var order = TestHelper.GetTestOrder();
 
-        _contex.Users.Add(user);
-        _contex.Products.Add(product);
-        _contex.Orders.Add(order);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.Products.Add(product);
+        _context.Orders.Add(order);
+        _context.SaveChanges();
 
         var token = TestHelper.GenerateJwtToken(1, user.Email);
 
@@ -133,10 +133,10 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
         var user = TestHelper.GetTestAdminUser();
         var order = TestHelper.GetTestOrder();
 
-        _contex.Users.Add(user);
-        _contex.Products.Add(product);
-        _contex.Orders.Add(order);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.Products.Add(product);
+        _context.Orders.Add(order);
+        _context.SaveChanges();
 
         var token = TestHelper.GenerateJwtToken(1, user.Email);
 
@@ -174,9 +174,9 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
         var product = TestHelper.GetTestProductWithStock();
         var user = TestHelper.GetTestAdminUser();
 
-        _contex.Users.Add(user);
-        _contex.Products.Add(product);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.Products.Add(product);
+        _context.SaveChanges();
 
         var token = TestHelper.GenerateJwtToken(1, user.Email);
 
@@ -197,9 +197,9 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
         var product = TestHelper.GetTestProductWithStock();
         var order = TestHelper.GetTestOrder();
 
-        _contex.Products.Add(product);
-        _contex.Orders.Add(order);
-        _contex.SaveChanges();
+        _context.Products.Add(product);
+        _context.Orders.Add(order);
+        _context.SaveChanges();
 
         var token = TestHelper.GenerateJwtToken(1, "test_email");
 
@@ -221,10 +221,10 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
         var user = TestHelper.GetTestUser();
         var order = TestHelper.GetTestOrder();
 
-        _contex.Users.Add(user);
-        _contex.Products.Add(product);
-        _contex.Orders.Add(order);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.Products.Add(product);
+        _context.Orders.Add(order);
+        _context.SaveChanges();
 
         var token = TestHelper.GenerateJwtToken(1, user.Email);
 

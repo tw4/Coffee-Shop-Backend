@@ -11,13 +11,13 @@ namespace coffee_shop_backend.Tests.Business;
 public class ProductServicesTest: IClassFixture<ProductServicesFixture>
 {
 
-    private readonly CoffeeShopTestDbContext _contex;
+    private readonly CoffeeShopTestDbContext _context;
     private readonly ProductServicesFixture _fixture;
 
     public ProductServicesTest(ProductServicesFixture fixture)
     {
         _fixture = fixture;
-        _contex = fixture.GetContex();
+        _context = fixture.GetContex();
         _fixture.Dispose();
     }
 
@@ -28,8 +28,8 @@ public class ProductServicesTest: IClassFixture<ProductServicesFixture>
 
         var user = TestHelper.GetTestAdminUser();
 
-        _contex.Users.Add(user);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.SaveChanges();
 
         var token = TestHelper.GenerateJwtToken(1, user.Email);
 
@@ -73,8 +73,8 @@ public class ProductServicesTest: IClassFixture<ProductServicesFixture>
 
         var user = TestHelper.GetTestUser();
 
-        _contex.Users.Add(user);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.SaveChanges();
 
         var token = TestHelper.GenerateJwtToken(1, user.Email);
 
@@ -118,8 +118,8 @@ public class ProductServicesTest: IClassFixture<ProductServicesFixture>
 
         var product = TestHelper.GetTestProduct();
 
-        _contex.Products.Add(product);
-        _contex.SaveChanges();
+        _context.Products.Add(product);
+        _context.SaveChanges();
 
         var token = TestHelper.GenerateJwtToken(1, "test_email");
 
@@ -159,9 +159,9 @@ public void ProductServices_DeleteProductById()
         var product = TestHelper.GetTestProduct();
         var user = TestHelper.GetTestAdminUser();
 
-        _contex.Users.Add(user);
-        _contex.Products.Add(product);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.Products.Add(product);
+        _context.SaveChanges();
 
         var token = TestHelper.GenerateJwtToken(1, "test_email");
 
@@ -189,8 +189,8 @@ public void ProductServices_DeleteProductById()
 
         var user = TestHelper.GetTestUser();
 
-        _contex.Users.Add(user);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.SaveChanges();
 
         var token = TestHelper.GenerateJwtToken(1, "test_email");
 
@@ -206,8 +206,8 @@ public void ProductServices_DeleteProductById()
 
         var user = TestHelper.GetTestAdminUser();
 
-        _contex.Users.Add(user);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.SaveChanges();
 
         var token = TestHelper.GenerateJwtToken(1, "test_email");
 
@@ -233,8 +233,8 @@ public void ProductServices_DeleteProductById()
 
         var product = TestHelper.GetTestProduct();
 
-        _contex.Products.Add(product);
-        _contex.SaveChanges();
+        _context.Products.Add(product);
+        _context.SaveChanges();
 
         var token = TestHelper.GenerateJwtToken(1, "test_email");
 
@@ -260,8 +260,8 @@ public void ProductServices_DeleteProductById()
 
         var product = TestHelper.GetTestProduct();
 
-        _contex.Products.Add(product);
-        _contex.SaveChanges();
+        _context.Products.Add(product);
+        _context.SaveChanges();
 
         var token = TestHelper.GenerateJwtToken(1, "test_email");
 
