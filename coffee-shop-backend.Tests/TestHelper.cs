@@ -117,6 +117,8 @@ public class TestHelper
             Id = 1,
             Name = "Test Product",
             Price = 10,
+            Description = "Test Description",
+            ImageUrl = "Test Image Url",
             Stock = null
         };
     }
