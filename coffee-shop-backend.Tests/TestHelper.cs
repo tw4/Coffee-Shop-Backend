@@ -155,4 +155,14 @@ public class TestHelper
             UserId = 1,
         };
     }
+
+    public static Stock GetTestStock()
+    {
+        return new Stock
+        {
+            Id = 1,
+            ProductId = 1,
+            Amount = 200,
+        };
+    }
 }

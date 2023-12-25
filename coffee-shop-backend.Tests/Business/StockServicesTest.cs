@@ -7,50 +7,33 @@ using Microsoft.Extensions.Logging;
 
 namespace coffee_shop_backend.Tests.Business;
 
-public class StockServicesTest
+public class StockServicesTest: IClassFixture<StockServicesFixture>
 {
-    private readonly CoffeeShopTestDbContext _contex;
-    private readonly IJwtServices _jwtServices;
-    private readonly Logger<StockServices> _logger;
+    private CoffeeShopTestDbContext _context;
+    private StockServicesFixture _fixture;
 
-
-    public StockServicesTest()
+    public StockServicesTest(StockServicesFixture fixture)
     {
-        _contex = TestHelper.CreateCoffeeShopTestDbContext("StockServicesTest");
-        _jwtServices = new JwtServices(TestHelper.CreateConfiguration(), new Logger<JwtServices>(new LoggerFactory()));
-        _logger = new Logger<StockServices>(new LoggerFactory());
+        _fixture = fixture;
+        _context = fixture.GetDbContext();
+        _fixture.Dispose();
     }
 
     [Fact]
     public void StockServices_Add_Stock()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
-        var product = new Product()
-        {
-            Id = 1,
-            Description = "Test",
-            Name = "Test",
-            Price = 1,
-            ImageUrl = "Test",
-        };
+        var product = TestHelper.GetTestProduct();
 
-        var user = new User()
-        {
-            Id = 1,
-            Email = "test_email",
-            Password = "test_password",
-            Name = "test_name",
-            Surname = "test_surname",
-            Role = EnumRole.ADMIN,
-        };
+        var user = TestHelper.GetTestAdminUser();
 
-        _contex.Users.Add(user);
-        _contex.Products.Add(product);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.Products.Add(product);
+        _context.SaveChanges();
 
 
-        var token = _jwtServices.GenerateJwtToken(1, user.Email);
+        var token = TestHelper.GenerateJwtToken(1, user.Email);
 
         var request = new AddStockRequest()
         {
@@ -60,16 +43,13 @@ public class StockServicesTest
 
         var result = stockServices.AddStock(request, token);
 
-        TestHelper.DeleteProductsOnDatabase(_contex);
-        TestHelper.DeleteUsersOnDatabase(_contex);
-        TestHelper.DeleteStocksOnDatabase(_contex);
         Assert.IsType<OkObjectResult>(result);
     }
 
     [Fact]
     public void StockServices_Add_Stock_Invalid_Token()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
         var token = "invalid_token";
 
@@ -87,9 +67,9 @@ public class StockServicesTest
     [Fact]
     public void StockServices_Add_Stock_User_Not_Found()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
-        var token = _jwtServices.GenerateJwtToken(1, "test_email");
+        var token = TestHelper.GenerateJwtToken(1, "test_email");
 
         var request = new AddStockRequest()
         {
@@ -105,22 +85,14 @@ public class StockServicesTest
     [Fact]
     public void StockServices_Add_Stock_User_Not_Admin()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
-        var user = new User()
-        {
-            Id = 1,
-            Email = "test_email",
-            Password = "test_password",
-            Name = "test_name",
-            Surname = "test_surname",
-            Role = EnumRole.USER,
-        };
+        var user = TestHelper.GetTestUser();
 
-        _contex.Users.Add(user);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.SaveChanges();
 
-        var token = _jwtServices.GenerateJwtToken(1, user.Email);
+        var token =  TestHelper.GenerateJwtToken(1, user.Email);
 
         var request = new AddStockRequest()
         {
@@ -130,29 +102,20 @@ public class StockServicesTest
 
         var result = stockServices.AddStock(request, token);
 
-        TestHelper.DeleteUsersOnDatabase(_contex);
         Assert.IsType<UnauthorizedResult>(result);
     }
 
     [Fact]
     public void StockServices_Add_Stock_Product_Not_Found()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
-        var user = new User()
-        {
-            Id = 1,
-            Email = "test_email",
-            Password = "test_password",
-            Name = "test_name",
-            Surname = "test_surname",
-            Role = EnumRole.ADMIN,
-        };
+        var user = TestHelper.GetTestAdminUser();
 
-        _contex.Users.Add(user);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.SaveChanges();
 
-        var token = _jwtServices.GenerateJwtToken(1, user.Email);
+        var token = TestHelper.GenerateJwtToken(1, user.Email);
 
         var request = new AddStockRequest()
         {
@@ -162,47 +125,26 @@ public class StockServicesTest
 
         var result = stockServices.AddStock(request, token);
 
-        TestHelper.DeleteUsersOnDatabase(_contex);
         Assert.IsType<NotFoundObjectResult>(result);
     }
 
     [Fact]
     public void StockServices_UpdateStock()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
-        var product = new Product()
-        {
-            Id = 1,
-            Description = "Test",
-            Name = "Test",
-            Price = 1,
-            ImageUrl = "Test",
-        };
+        var product = TestHelper.GetTestProduct();
 
-        var user = new User()
-        {
-            Id = 1,
-            Email = "test_email",
-            Password = "test_password",
-            Name = "test_name",
-            Surname = "test_surname",
-            Role = EnumRole.ADMIN,
-        };
+        var user = TestHelper.GetTestAdminUser();
 
-        var stock = new Stock()
-        {
-            Id = 1,
-            ProductId = 1,
-            Amount = 1,
-        };
+        var stock = TestHelper.GetTestStock();
 
-        _contex.Users.Add(user);
-        _contex.Products.Add(product);
-        _contex.Stocks.Add(stock);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.Products.Add(product);
+        _context.Stocks.Add(stock);
+        _context.SaveChanges();
 
-        var token = _jwtServices.GenerateJwtToken(1, user.Email);
+        var token = TestHelper.GenerateJwtToken(1, user.Email);
 
         var request = new UpdateStockRequest()
         {
@@ -212,17 +154,13 @@ public class StockServicesTest
 
         var result = stockServices.UpdateStock(request, token);
 
-        TestHelper.DeleteProductsOnDatabase(_contex);
-        TestHelper.DeleteUsersOnDatabase(_contex);
-        TestHelper.DeleteStocksOnDatabase(_contex);
-
         Assert.IsType<OkObjectResult>(result);
     }
 
     [Fact]
     public void StockServices_UpdateStock_Token_Is_Not_Valid()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
         var token = "invalid_token";
 
@@ -240,9 +178,9 @@ public class StockServicesTest
     [Fact]
     public void StockServices_UpdateStock_User_Not_Found()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
-        var token = _jwtServices.GenerateJwtToken(1, "test_email");
+        var token = TestHelper.GenerateJwtToken(1, "test_email");
 
         var request = new UpdateStockRequest()
         {
@@ -258,22 +196,14 @@ public class StockServicesTest
     [Fact]
     public void StockServices_UpdateStock_User_Not_Admin()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
-        var user = new User()
-        {
-            Id = 1,
-            Email = "test_email",
-            Password = "test_password",
-            Name = "test_name",
-            Surname = "test_surname",
-            Role = EnumRole.USER,
-        };
+        var user = TestHelper.GetTestUser();
 
-        _contex.Users.Add(user);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.SaveChanges();
 
-        var token = _jwtServices.GenerateJwtToken(1, user.Email);
+        var token = TestHelper.GenerateJwtToken(1, user.Email);
 
         var request = new UpdateStockRequest()
         {
@@ -283,29 +213,20 @@ public class StockServicesTest
 
         var result = stockServices.UpdateStock(request, token);
 
-        TestHelper.DeleteUsersOnDatabase(_contex);
         Assert.IsType<UnauthorizedResult>(result);
     }
 
     [Fact]
     public void StockServices_UpdateStock_Stock_Not_Found()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
-        var user = new User()
-        {
-            Id = 1,
-            Email = "test_email",
-            Password = "test_password",
-            Name = "test_name",
-            Surname = "test_surname",
-            Role = EnumRole.ADMIN,
-        };
+        var user = TestHelper.GetTestAdminUser();
 
-        _contex.Users.Add(user);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.SaveChanges();
 
-        var token = _jwtServices.GenerateJwtToken(1, user.Email);
+        var token = TestHelper.GenerateJwtToken(1, user.Email);
 
         var request = new UpdateStockRequest()
         {
@@ -315,62 +236,36 @@ public class StockServicesTest
 
         var result = stockServices.UpdateStock(request, token);
 
-        TestHelper.DeleteUsersOnDatabase(_contex);
         Assert.IsType<NotFoundObjectResult>(result);
     }
 
     [Fact]
     public void StockServices_DeleteStock()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
-        var product = new Product()
-        {
-            Id = 1,
-            Description = "Test",
-            Name = "Test",
-            Price = 1,
-            ImageUrl = "Test",
-        };
+        var product = TestHelper.GetTestProduct();
 
-        var user = new User()
-        {
-            Id = 1,
-            Email = "test_email",
-            Password = "test_password",
-            Name = "test_name",
-            Surname = "test_surname",
-            Role = EnumRole.ADMIN,
-        };
+        var user = TestHelper.GetTestAdminUser();
 
-        var stock = new Stock()
-        {
-            Id = 1,
-            ProductId = 1,
-            Amount = 1,
-        };
+        var stock = TestHelper.GetTestStock();
 
-        _contex.Users.Add(user);
-        _contex.Products.Add(product);
-        _contex.Stocks.Add(stock);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.Products.Add(product);
+        _context.Stocks.Add(stock);
+        _context.SaveChanges();
 
-
-        var token = _jwtServices.GenerateJwtToken(1, user.Email);
-
+        var token = TestHelper.GenerateJwtToken(1, user.Email);
 
         var result = stockServices.DeleteStock(1, token);
 
-        TestHelper.DeleteProductsOnDatabase(_contex);
-        TestHelper.DeleteUsersOnDatabase(_contex);
-        TestHelper.DeleteStocksOnDatabase(_contex);
         Assert.IsType<OkObjectResult>(result);
     }
 
     [Fact]
     public void StockServices_DeleteStock_Token_Is_Not_Valid()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
         var result = stockServices.DeleteStock(1, "invalid_token");
 
@@ -380,102 +275,63 @@ public class StockServicesTest
     [Fact]
     public void StockServices_DeleteStock_Stock_Not_Found()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
-        var user = new User()
-        {
-            Id = 1,
-            Email = "test_email",
-            Password = "test_password",
-            Name = "test_name",
-            Surname = "test_surname",
-            Role = EnumRole.ADMIN,
-        };
+        var user = TestHelper.GetTestAdminUser();
 
-        _contex.Users.Add(user);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.SaveChanges();
 
-        var token = _jwtServices.GenerateJwtToken(1, user.Email);
+        var token = TestHelper.GenerateJwtToken(1, user.Email);
 
         var result = stockServices.DeleteStock(1, token);
 
-        TestHelper.DeleteUsersOnDatabase(_contex);
         Assert.IsType<NotFoundObjectResult>(result);
     }
 
     [Fact]
     public void StockServices_GetStockById()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
-        var user = new User()
-        {
-            Id = 1,
-            Email = "test_email",
-            Password = "test_password",
-            Name = "test_name",
-            Surname = "test_surname",
-        };
+        var user = TestHelper.GetTestAdminUser();
 
-        var product = new Product()
-        {
-            Id = 1,
-            Description = "Test",
-            Name = "Test",
-            Price = 1,
-            ImageUrl = "Test",
-        };
+        var product = TestHelper.GetTestProduct();
 
-        var stock = new Stock()
-        {
-            Id = 1,
-            ProductId = 1,
-            Amount = 1,
-        };
+        var stock = TestHelper.GetTestStock();
 
-        _contex.Products.Add(product);
-        _contex.Stocks.Add(stock);
-        _contex.SaveChanges();
+        _context.Products.Add(product);
+        _context.Stocks.Add(stock);
+        _context.SaveChanges();
 
-        var token = _jwtServices.GenerateJwtToken(1, user.Email);
+        var token = TestHelper.GenerateJwtToken(1, user.Email);
 
         var result = stockServices.GetStockById(1, token);
 
-        TestHelper.DeleteUsersOnDatabase(_contex);
-        TestHelper.DeleteProductsOnDatabase(_contex);
-        TestHelper.DeleteStocksOnDatabase(_contex);
         Assert.IsType<OkObjectResult>(result);
     }
 
     [Fact]
     public void StockServices_GetStockById_Stock_Not_Found()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
-        var user = new User()
-        {
-            Id = 1,
-            Email = "test_email",
-            Password = "test_password",
-            Name = "test_name",
-            Surname = "test_surname",
-        };
+        var user = TestHelper.GetTestUser();
 
-        _contex.Users.Add(user);
-        _contex.SaveChanges();
+        _context.Users.Add(user);
+        _context.SaveChanges();
 
-        var token = _jwtServices.GenerateJwtToken(1, user.Email);
+        var token = TestHelper.GenerateJwtToken(1, user.Email);
 
         var result = stockServices.GetStockById(1, token);
 
-        TestHelper.DeleteUsersOnDatabase(_contex);
         Assert.IsType<NotFoundObjectResult>(result);
     }
 
     [Fact]
     public void StockServices_GetStockById_Token_Is_Not_Valid()
     {
-        var stockServices = new StockServices(_contex, _jwtServices, _logger);
+        var stockServices = _fixture.CreateStockServices();
 
         var token = "invalid_token";
 
