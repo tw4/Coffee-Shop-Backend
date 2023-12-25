@@ -39,6 +39,7 @@ public class TestHelper
         {
             context.Users.Remove(user);
         }
+
         context.SaveChanges();
     }
 
@@ -49,6 +50,7 @@ public class TestHelper
         {
             context.Products.Remove(product);
         }
+
         context.SaveChanges();
     }
 
@@ -59,6 +61,7 @@ public class TestHelper
         {
             context.Stocks.Remove(stock);
         }
+
         context.SaveChanges();
     }
 
@@ -69,6 +72,7 @@ public class TestHelper
         {
             context.Orders.Remove(order);
         }
+
         context.SaveChanges();
     }
 
@@ -83,12 +87,12 @@ public class TestHelper
         return new User
         {
             Id = 1,
-            Name = "Admin",
-            Surname = "Admin",
+            Name = "Test",
+            Surname = "Test",
             Email = "test_email_1",
             Password = "test_password_1",
             Orders = null,
-            Role = EnumRole.ADMIN
+            Role = EnumRole.USER
         };
     }
 
@@ -103,6 +107,50 @@ public class TestHelper
             Password = "test_password_1",
             Orders = null,
             Role = EnumRole.ADMIN
+        };
+    }
+
+    public static Product GetTestProduct()
+    {
+        return new Product
+        {
+            Id = 1,
+            Name = "Test Product",
+            Price = 10,
+            Stock = null
+        };
+    }
+
+    public static Product GetTestProductWithStock()
+    {
+        return new Product
+        {
+            Id = 1,
+            Name = "Test Product",
+            Price = 10,
+            Description = "Test Description",
+            ImageUrl = "Test Image Url",
+            Stock = new Stock
+            {
+                Id = 1,
+                ProductId = 1,
+                Amount = 200,
+            }
+        };
+    }
+
+    public static Order GetTestOrder()
+    {
+        return new Order
+        {
+            Id = 1,
+            Address = "Test Address",
+            Email = "Test Email",
+            FullName =  "Test Full Name",
+            PaymentDate = DateTime.Now,
+            Status = EnumOrderStatus.Ready,
+            ProductId = 1,
+            UserId = 1,
         };
     }
 }
