@@ -7,23 +7,24 @@ using Microsoft.Extensions.Logging;
 
 namespace coffee_shop_backend.Tests.Business;
 
-public class UserServicesTest
+public class UserServicesTest: IClassFixture<UserServicesFixture>
 {
-    private readonly CoffeeShopTestDbContext _context;
-    private readonly IJwtServices _jwtServices;
-    private readonly Logger<UserServices> _logger;
 
-    public UserServicesTest()
+    private readonly CoffeeShopTestDbContext _context;
+    private readonly UserServicesFixture _fixture;
+
+    public UserServicesTest(UserServicesFixture fixture)
     {
-        _context = TestHelper.CreateCoffeeShopTestDbContext("UserServicesTest");
-        _logger = new Logger<UserServices>(new LoggerFactory());
-        _jwtServices = new JwtServices(TestHelper.CreateConfiguration(), new Logger<JwtServices>(new LoggerFactory()));
+        _fixture = fixture;
+        _context = _fixture.GetContext();
+        _fixture.Dispose();
     }
+
 
     [Fact]
     public void UserServices_AddUser()
     {
-        var userServices = new UserServices(_context, _jwtServices, _logger);
+        var userServices = _fixture.CreateUserServices();
         var request = new AddUserRequest()
         {
             Name = "Test",
@@ -34,14 +35,13 @@ public class UserServicesTest
 
         var result = userServices.AddUser(request);
 
-        TestHelper.DeleteUsersOnDatabase(_context);
         Assert.IsType<OkObjectResult>(result);
     }
 
     [Fact]
     public void UserServices_AddUser_WhenUserAlreadyExists()
     {
-        var userServices = new UserServices(_context, _jwtServices, _logger);
+        var userServices = _fixture.CreateUserServices();
         var request = new AddUserRequest()
         {
             Name = "Test",
@@ -53,39 +53,29 @@ public class UserServicesTest
         userServices.AddUser(request);
         var result = userServices.AddUser(request);
 
-        TestHelper.DeleteUsersOnDatabase(_context);
         Assert.IsType<BadRequestObjectResult>(result);
     }
 
     [Fact]
     public void UserServices_GetUserById()
     {
-        var userServices = new UserServices(_context, _jwtServices, _logger);
-        var u = new User()
-        {
-            Id = 1,
-            Name = "Test",
-            Surname = "Test",
-            Email = "test_email",
-            Password = "test_password"
-        };
+        var userServices = _fixture.CreateUserServices();
+        var u = TestHelper.GetTestUser();
 
         _context.Users.Add(u);
         _context.SaveChanges();
 
-        var token = _jwtServices.GenerateJwtToken(1, "test_email");
+        var token = TestHelper.GenerateJwtToken(1, u.Email);
         var user = userServices.GetUserById(token);
 
-
-        TestHelper.DeleteUsersOnDatabase(_context);
         Assert.IsType<OkObjectResult>(user);
     }
 
     [Fact]
     public void UserServices_GetUserById_WhenUserNotFound()
     {
-        var userServices = new UserServices(_context, _jwtServices, _logger);
-        var token = _jwtServices.GenerateJwtToken(1, "test_email");
+        var userServices = _fixture.CreateUserServices();
+        var token = TestHelper.GenerateJwtToken(1, "test_email");
         var user = userServices.GetUserById(token);
 
         Assert.IsType<BadRequestObjectResult>(user);
@@ -94,7 +84,7 @@ public class UserServicesTest
     [Fact]
     public void UserServices_GetUserById_WhenUserToken_IsNotValid()
     {
-        var userServices = new UserServices(_context, _jwtServices, _logger);
+        var userServices = _fixture.CreateUserServices();
         var token = "test_token";
         var user = userServices.GetUserById(token);
 
@@ -104,31 +94,23 @@ public class UserServicesTest
     [Fact]
     public void UserServices_DeleteById()
     {
-        var userServices = new UserServices(_context, _jwtServices, _logger);
-        var u = new User()
-        {
-            Id = 1,
-            Name = "Test",
-            Surname = "Test",
-            Email = "test_email",
-            Password = "test_password"
-        };
+        var userServices = _fixture.CreateUserServices();
+        var u = TestHelper.GetTestUser();
 
         _context.Users.Add(u);
         _context.SaveChanges();
 
-        var token = _jwtServices.GenerateJwtToken(1, "test_email");
+        var token = TestHelper.GenerateJwtToken(1, "test_email");
         var result = userServices.DeleteUserById(token);
 
-        TestHelper.DeleteUsersOnDatabase(_context);
         Assert.IsType<OkObjectResult>(result);
     }
 
     [Fact]
     public void UserServices_DeleteById_WhenUserNotFound()
     {
-        var userServices = new UserServices(_context, _jwtServices, _logger);
-        var token = _jwtServices.GenerateJwtToken(1, "test_email");
+        var userServices = _fixture.CreateUserServices();
+        var token = TestHelper.GenerateJwtToken(1, "test_email");
         var result = userServices.DeleteUserById(token);
 
         Assert.IsType<BadRequestObjectResult>(result);
@@ -137,7 +119,7 @@ public class UserServicesTest
     [Fact]
     public void UserServices_DeleteById_WhenUserToken_IsNotValid()
     {
-        var userServices = new UserServices(_context, _jwtServices, _logger);
+        var userServices = _fixture.CreateUserServices();
         var token = "test_token";
         var result = userServices.DeleteUserById(token);
 
@@ -147,35 +129,27 @@ public class UserServicesTest
     [Fact]
     public void UserServices_UpdateUserPassword()
     {
-        var userServices = new UserServices(_context, _jwtServices, _logger);
-        var u = new User()
-        {
-            Id = 1,
-            Name = "Test",
-            Surname = "Test",
-            Email = "test_email",
-            Password = "test_password"
-        };
+        var userServices = _fixture.CreateUserServices();
+        var u = TestHelper.GetTestUser();
 
         _context.Users.Add(u);
         _context.SaveChanges();
 
-        var token = _jwtServices.GenerateJwtToken(1, "test_email");
+        var token = TestHelper.GenerateJwtToken(1, "test_email");
         var request = new UpdateUserPasswordRequest()
         {
             Password = "test_password1"
         };
         var result = userServices.UpdateUserPassword(token, request);
 
-        TestHelper.DeleteUsersOnDatabase(_context);
         Assert.IsType<OkObjectResult>(result);
     }
 
     [Fact]
     public void UserServices_UpdateUserPassword_WhenUserNotFound()
     {
-        var userServices = new UserServices(_context, _jwtServices, _logger);
-        var token = _jwtServices.GenerateJwtToken(1, "test_email");
+        var userServices = _fixture.CreateUserServices();
+        var token = TestHelper.GenerateJwtToken(1, "test_email");
         var request = new UpdateUserPasswordRequest()
         {
             Password = "test_password1"
@@ -188,7 +162,7 @@ public class UserServicesTest
     [Fact]
     public void UserServices_UpdateUserPassword_WhenUserToken_IsNotValid()
     {
-        var userServices = new UserServices(_context, _jwtServices, _logger);
+        var userServices = _fixture.CreateUserServices();
         var token = "test_token";
         var request = new UpdateUserPasswordRequest()
         {
@@ -202,20 +176,13 @@ public class UserServicesTest
     [Fact]
     public void UserServices_UpdateBasicUserInformation()
     {
-        var userServices = new UserServices(_context, _jwtServices, _logger);
-        var u = new User()
-        {
-            Id = 1,
-            Name = "Test",
-            Surname = "Test",
-            Email = "test_email",
-            Password = "test_password"
-        };
+        var userServices = _fixture.CreateUserServices();
+        var u = TestHelper.GetTestUser();
 
         _context.Users.Add(u);
         _context.SaveChanges();
 
-        var token = _jwtServices.GenerateJwtToken(1, "test_email");
+        var token = TestHelper.GenerateJwtToken(1, "test_email");
         var request = new UpdateBasicUserInformationRequest()
         {
             Name = "Test1",
@@ -224,15 +191,14 @@ public class UserServicesTest
         };
         var result = userServices.UpdateBasicUserInformation(token, request);
 
-        TestHelper.DeleteUsersOnDatabase(_context);
         Assert.IsType<OkObjectResult>(result);
     }
 
     [Fact]
     public void UserServices_UpdateBasicUserInformation_WhenUserNotFound()
     {
-        var userServices = new UserServices(_context, _jwtServices, _logger);
-        var token = _jwtServices.GenerateJwtToken(1, "test_email");
+        var userServices = _fixture.CreateUserServices();
+        var token = TestHelper.GenerateJwtToken(1, "test_email");
         var request = new UpdateBasicUserInformationRequest()
         {
             Name = "Test1",
@@ -247,7 +213,7 @@ public class UserServicesTest
     [Fact]
     public void UserServices_UpdateBasicUserInformation_WhenUserToken_IsNotValid()
     {
-        var userServices = new UserServices(_context, _jwtServices, _logger);
+        var userServices = _fixture.CreateUserServices();
         var token = "test_token";
         var request = new UpdateBasicUserInformationRequest()
         {
@@ -259,6 +225,5 @@ public class UserServicesTest
 
         Assert.IsType<UnauthorizedResult>(result);
     }
-
 
 }
