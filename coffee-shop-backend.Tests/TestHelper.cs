@@ -71,4 +71,38 @@ public class TestHelper
         }
         context.SaveChanges();
     }
+
+    public static string GenerateJwtToken(int id, string email)
+    {
+        var jwtServices = new JwtServices(CreateConfiguration(), new Logger<JwtServices>(new LoggerFactory()));
+        return jwtServices.GenerateJwtToken(id, email);
+    }
+
+    public static User GetTestUser()
+    {
+        return new User
+        {
+            Id = 1,
+            Name = "Admin",
+            Surname = "Admin",
+            Email = "test_email_1",
+            Password = "test_password_1",
+            Orders = null,
+            Role = EnumRole.ADMIN
+        };
+    }
+
+    public static User GetTestAdminUser()
+    {
+        return new User
+        {
+            Id = 1,
+            Name = "Admin",
+            Surname = "Admin",
+            Email = "test_email_1",
+            Password = "test_password_1",
+            Orders = null,
+            Role = EnumRole.ADMIN
+        };
+    }
 }
