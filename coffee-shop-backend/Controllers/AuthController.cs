@@ -28,4 +28,11 @@ public class AuthController: ControllerBase
     {
         return _authServices.Auth(token);
     }
+
+    [HttpGet]
+    [Route("test")]
+    public string Hello()
+    {
+        return "test";
+    }
 }
