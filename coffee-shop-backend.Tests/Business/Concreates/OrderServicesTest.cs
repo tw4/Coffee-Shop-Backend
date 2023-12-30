@@ -41,7 +41,7 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
 
         var token = TestHelper.GenerateJwtToken(1, user.Email);
 
-        var result = orderServices.AddOrder(request, token);
+        var result = orderServices.Add(request, token);
 
         Assert.IsType<OkObjectResult>(result);
     }
@@ -68,7 +68,7 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
 
         var token = TestHelper.GenerateJwtToken(1, user.Email);
 
-        var result = orderServices.AddOrder(request, token);
+        var result = orderServices.Add(request, token);
 
         Assert.IsType<BadRequestObjectResult>(result);
     }
@@ -88,7 +88,7 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
 
         var token = "invalid_token";
 
-        var result = orderServices.AddOrder(request, token);
+        var result = orderServices.Add(request, token);
 
         Assert.IsType<UnauthorizedResult>(result);
     }
@@ -145,7 +145,7 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
             Status = EnumOrderStatus.Waiting
         };
 
-        var result = orderServices.UpdateOrderStatus(request, 1, token);
+        var result = orderServices.Update(request, 1, token);
 
         Assert.IsType<OkObjectResult>(result);
     }
@@ -162,7 +162,7 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
             Status = EnumOrderStatus.Waiting
         };
 
-        var result = orderServices.UpdateOrderStatus(request, 1, token);
+        var result = orderServices.Update(request, 1, token);
 
         Assert.IsType<UnauthorizedResult>(result);
     }
@@ -185,7 +185,7 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
             Status = EnumOrderStatus.Waiting
         };
 
-        var result = orderServices.UpdateOrderStatus(request, 1, token);
+        var result = orderServices.Update(request, 1, token);
 
         Assert.IsType<NotFoundResult>(result);
     }
@@ -208,7 +208,7 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
             Status = EnumOrderStatus.Waiting
         };
 
-        var result = orderServices.UpdateOrderStatus(request, 1, token);
+        var result = orderServices.Update(request, 1, token);
 
         Assert.IsType<NotFoundResult>(result);
     }
@@ -233,7 +233,7 @@ public class OrderServicesTest : IClassFixture<OrderServicesFixture>
             Status = EnumOrderStatus.Waiting
         };
 
-        var result = orderServices.UpdateOrderStatus(request, 1, token);
+        var result = orderServices.Update(request, 1, token);
 
         Assert.IsType<UnauthorizedResult>(result);
     }
