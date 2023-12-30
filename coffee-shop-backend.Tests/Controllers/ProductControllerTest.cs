@@ -14,13 +14,13 @@ public class ProductControllerTest
     {
         var mockProductServices = new Mock<IProductServices>();
 
-        mockProductServices.Setup(x => x.AddProduct(It.IsAny<AddProductRequest>(), It.IsAny<string>()))
+        mockProductServices.Setup(x => x.Add(It.IsAny<AddProductRequest>(), It.IsAny<string>()))
             .Returns(new OkObjectResult("AddProduct"));
 
-        mockProductServices.Setup(x => x.GetProductById(It.IsAny<long>(), It.IsAny<string>()))
+        mockProductServices.Setup(x => x.GetById(It.IsAny<long>(), It.IsAny<string>()))
             .Returns(new OkObjectResult("GetProductById"));
 
-        mockProductServices.Setup(x => x.DeleteProductById(It.IsAny<long>(), It.IsAny<string>()))
+        mockProductServices.Setup(x => x.DeleteById(It.IsAny<long>(), It.IsAny<string>()))
             .Returns(new OkObjectResult("DeleteProductById"));
 
         mockProductServices.Setup(x => x.GetProductsByPage(It.IsAny<int>(), It.IsAny<string>()))

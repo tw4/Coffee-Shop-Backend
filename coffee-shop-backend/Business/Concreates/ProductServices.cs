@@ -24,7 +24,7 @@ public class ProductServices: IProductServices
         _logger = logger;
     }
 
-    public IActionResult AddProduct(AddProductRequest request, string token)
+    public IActionResult Add(AddProductRequest request, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
         {
@@ -70,7 +70,13 @@ public class ProductServices: IProductServices
         }
     }
 
-    public IActionResult GetProductById(long id, string token)
+    // TODO: Implement this method
+    public IActionResult Update(UpdateProductRequest request, string token)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IActionResult GetById(long id, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
         {
@@ -102,7 +108,7 @@ public class ProductServices: IProductServices
         return new OkObjectResult(new { message = "Product found", success = true, data = productWithStock });
     }
 
-    public IActionResult DeleteProductById(long id, string token)
+    public IActionResult DeleteById(long id, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
         {

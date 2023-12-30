@@ -41,7 +41,7 @@ public class ProductServicesTest: IClassFixture<ProductServicesFixture>
             ImageUrl = "test_image_url",
         };
 
-        var result = productServices.AddProduct(request, token);
+        var result = productServices.Add(request, token);
 
         Assert.IsType<OkObjectResult>(result);
     }
@@ -61,7 +61,7 @@ public class ProductServicesTest: IClassFixture<ProductServicesFixture>
             ImageUrl = "test_image_url",
         };
 
-        var result = productServices.AddProduct(request, token);
+        var result = productServices.Add(request, token);
 
         Assert.IsType<NotFoundObjectResult>(result);
     }
@@ -86,7 +86,7 @@ public class ProductServicesTest: IClassFixture<ProductServicesFixture>
             ImageUrl = "test_image_url",
         };
 
-        var result = productServices.AddProduct(request, token);
+        var result = productServices.Add(request, token);
 
         Assert.IsType<UnauthorizedResult>(result);
     }
@@ -106,7 +106,7 @@ public class ProductServicesTest: IClassFixture<ProductServicesFixture>
             ImageUrl = "test_image_url",
         };
 
-        var result = productServices.AddProduct(request, token);
+        var result = productServices.Add(request, token);
 
         Assert.IsType<UnauthorizedResult>(result);
     }
@@ -123,7 +123,7 @@ public class ProductServicesTest: IClassFixture<ProductServicesFixture>
 
         var token = TestHelper.GenerateJwtToken(1, "test_email");
 
-        var result = productServices.GetProductById(1, token);
+        var result = productServices.GetById(1, token);
 
         Assert.IsType<OkObjectResult>(result);
     }
@@ -135,7 +135,7 @@ public class ProductServicesTest: IClassFixture<ProductServicesFixture>
 
         var token = TestHelper.GenerateJwtToken(1, "test_email");
 
-        var result = productServices.GetProductById(1, token);
+        var result = productServices.GetById(1, token);
 
         Assert.IsType<NotFoundObjectResult>(result);
     }
@@ -147,7 +147,7 @@ public class ProductServicesTest: IClassFixture<ProductServicesFixture>
 
         var token = "test_token";
 
-        var result = productServices.GetProductById(1, token);
+        var result = productServices.GetById(1, token);
 
         Assert.IsType<UnauthorizedResult>(result);
     }
@@ -165,7 +165,7 @@ public void ProductServices_DeleteProductById()
 
         var token = TestHelper.GenerateJwtToken(1, "test_email");
 
-        var result = productServices.DeleteProductById(1, token);
+        var result = productServices.DeleteById(1, token);
 
         Assert.IsType<OkObjectResult>(result);
     }
@@ -177,7 +177,7 @@ public void ProductServices_DeleteProductById()
 
         var token = TestHelper.GenerateJwtToken(1, "test_email");
 
-        var result = productServices.DeleteProductById(1, token);
+        var result = productServices.DeleteById(1, token);
 
         Assert.IsType<NotFoundObjectResult>(result);
     }
@@ -194,7 +194,7 @@ public void ProductServices_DeleteProductById()
 
         var token = TestHelper.GenerateJwtToken(1, "test_email");
 
-        var result = productServices.DeleteProductById(1, token);
+        var result = productServices.DeleteById(1, token);
 
         Assert.IsType<UnauthorizedResult>(result);
     }
@@ -211,7 +211,7 @@ public void ProductServices_DeleteProductById()
 
         var token = TestHelper.GenerateJwtToken(1, "test_email");
 
-        var result = productServices.DeleteProductById(1, token);
+        var result = productServices.DeleteById(1, token);
 
         Assert.IsType<NotFoundObjectResult>(result);
     }
@@ -221,7 +221,7 @@ public void ProductServices_DeleteProductById()
     {
         var productServices = _fixture.CreateProductServices();
 
-        var result = productServices.DeleteProductById(1, "test_token");
+        var result = productServices.DeleteById(1, "test_token");
 
         Assert.IsType<UnauthorizedResult>(result);
     }
