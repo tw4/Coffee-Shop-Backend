@@ -3,9 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace coffee_shop_backend.Business.Abstracts;
 
-public interface IOrderServices
+public interface IOrderServices: ICrudServices<AddOrderRequest, UpdateOrderStatusRequest>
 {
-    public IActionResult AddOrder(AddOrderRequest request, string token);
     public IActionResult GetOrdersByUserId(string token);
-    public IActionResult UpdateOrderStatus(UpdateOrderStatusRequest request,long orderId ,string token);
+    public IActionResult Update(UpdateOrderStatusRequest request,long orderId ,string token);
 }

@@ -18,7 +18,7 @@ public class OrderController:ControllerBase
     [HttpPost]
     public IActionResult AddOrder([FromBody] AddOrderRequest request, [FromHeader] string token)
     {
-        return _orderServices.AddOrder(request, token);
+        return _orderServices.Add(request, token);
     }
 
     [HttpGet]
@@ -30,7 +30,7 @@ public class OrderController:ControllerBase
     [HttpPatch("{id}")]
     public IActionResult UpdateOrderStatus([FromBody] UpdateOrderStatusRequest request, [FromRoute] long id, [FromHeader] string token)
     {
-        return _orderServices.UpdateOrderStatus(request, id, token);
+        return _orderServices.Update(request, id, token);
     }
 
 }

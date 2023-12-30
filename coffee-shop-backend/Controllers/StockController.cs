@@ -18,25 +18,25 @@ public class StockController: ControllerBase
     [HttpPost]
     public IActionResult AddStock([FromBody]AddStockRequest request, [FromHeader]string token)
     {
-        return _stockServices.AddStock(request, token);
+        return _stockServices.Add(request, token);
     }
 
     [HttpPatch]
     public IActionResult UpdateStock([FromBody]UpdateStockRequest request, [FromHeader]string token)
     {
-        return _stockServices.UpdateStock(request, token);
+        return _stockServices.Update(request, token);
     }
 
     [HttpDelete("{id}")]
     public IActionResult DeleteStock([FromRoute]long id, [FromHeader]string token)
     {
-        return _stockServices.DeleteStock(id, token);
+        return _stockServices.DeleteById(id, token);
     }
 
     [HttpGet("{id}")]
     public IActionResult GetStockById([FromRoute]long id, [FromHeader]string token)
     {
-        return _stockServices.GetStockById(id, token);
+        return _stockServices.GetById(id, token);
     }
 
 

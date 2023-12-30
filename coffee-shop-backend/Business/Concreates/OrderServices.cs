@@ -20,7 +20,7 @@ public class OrderServices: IOrderServices
         _logger = logger;
     }
 
-    public IActionResult AddOrder(AddOrderRequest request, string token)
+    public IActionResult Add(AddOrderRequest request, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
         {
@@ -67,6 +67,8 @@ public class OrderServices: IOrderServices
         }
     }
 
+
+
     public IActionResult GetOrdersByUserId(string token)
     {
         if (!_jwtServices.IsTokenValid(token))
@@ -96,7 +98,7 @@ public class OrderServices: IOrderServices
         return new OkObjectResult(new {message = "Orders fetched successfully", success = true, data = ordersWithUserAndProduct});
     }
 
-    public IActionResult UpdateOrderStatus(UpdateOrderStatusRequest request, long orderId, string token)
+    public IActionResult Update(UpdateOrderStatusRequest request, long orderId, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
         {
@@ -141,5 +143,20 @@ public class OrderServices: IOrderServices
             _logger.LogError($"Error while updating order status",e);
             return new BadRequestObjectResult(new {message = e.Message, success = false});
         }
+    }
+
+    public IActionResult Update(UpdateOrderStatusRequest request, string token)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IActionResult DeleteById(long id, string token)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IActionResult GetById(long id, string token)
+    {
+        throw new NotImplementedException();
     }
 }

@@ -14,14 +14,14 @@ public class OrderControllerTest
     {
         var orderServicesMock = new Mock<IOrderServices>();
 
-        orderServicesMock.Setup(x => x.AddOrder(It.IsAny<AddOrderRequest>(), It.IsAny<string>()))
+        orderServicesMock.Setup(x => x.Add(It.IsAny<AddOrderRequest>(), It.IsAny<string>()))
             .Returns(new OkObjectResult("Success"));
 
         orderServicesMock.Setup(x => x.GetOrdersByUserId(It.IsAny<string>()))
             .Returns(new OkObjectResult("Success"));
 
         orderServicesMock.Setup(x =>
-                x.UpdateOrderStatus(It.IsAny<UpdateOrderStatusRequest>(), It.IsAny<long>(), It.IsAny<string>()))
+                x.Update(It.IsAny<UpdateOrderStatusRequest>(), It.IsAny<long>(), It.IsAny<string>()))
             .Returns(new OkObjectResult("Success"));
 
         _orderServices = orderServicesMock.Object;
