@@ -41,7 +41,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
             ProductId = 1,
         };
 
-        var result = stockServices.AddStock(request, token);
+        var result = stockServices.Add(request, token);
 
         Assert.IsType<OkObjectResult>(result);
     }
@@ -59,7 +59,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
             ProductId = 1,
         };
 
-        var result = stockServices.AddStock(request, token);
+        var result = stockServices.Add(request, token);
 
         Assert.IsType<UnauthorizedResult>(result);
     }
@@ -77,7 +77,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
             ProductId = 1,
         };
 
-        var result = stockServices.AddStock(request, token);
+        var result = stockServices.Add(request, token);
 
         Assert.IsType<NotFoundObjectResult>(result);
     }
@@ -100,7 +100,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
             ProductId = 1,
         };
 
-        var result = stockServices.AddStock(request, token);
+        var result = stockServices.Add(request, token);
 
         Assert.IsType<UnauthorizedResult>(result);
     }
@@ -123,7 +123,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
             ProductId = 1,
         };
 
-        var result = stockServices.AddStock(request, token);
+        var result = stockServices.Add(request, token);
 
         Assert.IsType<NotFoundObjectResult>(result);
     }
@@ -152,7 +152,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
             Amount = 2,
         };
 
-        var result = stockServices.UpdateStock(request, token);
+        var result = stockServices.Update(request, token);
 
         Assert.IsType<OkObjectResult>(result);
     }
@@ -170,7 +170,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
             Amount = 2,
         };
 
-        var result = stockServices.UpdateStock(request, token);
+        var result = stockServices.Update(request, token);
 
         Assert.IsType<UnauthorizedResult>(result);
     }
@@ -188,7 +188,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
             Amount = 2,
         };
 
-        var result = stockServices.UpdateStock(request, token);
+        var result = stockServices.Update(request, token);
 
         Assert.IsType<NotFoundObjectResult>(result);
     }
@@ -211,7 +211,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
             Amount = 2,
         };
 
-        var result = stockServices.UpdateStock(request, token);
+        var result = stockServices.Update(request, token);
 
         Assert.IsType<UnauthorizedResult>(result);
     }
@@ -234,7 +234,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
             Amount = 2,
         };
 
-        var result = stockServices.UpdateStock(request, token);
+        var result = stockServices.Update(request, token);
 
         Assert.IsType<NotFoundObjectResult>(result);
     }
@@ -257,7 +257,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
 
         var token = TestHelper.GenerateJwtToken(1, user.Email);
 
-        var result = stockServices.DeleteStock(1, token);
+        var result = stockServices.DeleteById(1, token);
 
         Assert.IsType<OkObjectResult>(result);
     }
@@ -267,7 +267,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
     {
         var stockServices = _fixture.CreateStockServices();
 
-        var result = stockServices.DeleteStock(1, "invalid_token");
+        var result = stockServices.DeleteById(1, "invalid_token");
 
         Assert.IsType<UnauthorizedResult>(result);
     }
@@ -284,7 +284,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
 
         var token = TestHelper.GenerateJwtToken(1, user.Email);
 
-        var result = stockServices.DeleteStock(1, token);
+        var result = stockServices.DeleteById(1, token);
 
         Assert.IsType<NotFoundObjectResult>(result);
     }
@@ -306,7 +306,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
 
         var token = TestHelper.GenerateJwtToken(1, user.Email);
 
-        var result = stockServices.GetStockById(1, token);
+        var result = stockServices.GetById(1, token);
 
         Assert.IsType<OkObjectResult>(result);
     }
@@ -323,7 +323,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
 
         var token = TestHelper.GenerateJwtToken(1, user.Email);
 
-        var result = stockServices.GetStockById(1, token);
+        var result = stockServices.GetById(1, token);
 
         Assert.IsType<NotFoundObjectResult>(result);
     }
@@ -335,7 +335,7 @@ public class StockServicesTest: IClassFixture<StockServicesFixture>
 
         var token = "invalid_token";
 
-        var result = stockServices.GetStockById(1, token);
+        var result = stockServices.GetById(1, token);
 
         Assert.IsType<UnauthorizedResult>(result);
     }

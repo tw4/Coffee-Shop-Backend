@@ -15,16 +15,16 @@ public class StockControllerTest
     {
         var mockStockServices = new Mock<IStockServices>();
 
-        mockStockServices.Setup(services => services.AddStock(It.IsAny<AddStockRequest>(), It.IsAny<string>()))
+        mockStockServices.Setup(services => services.Add(It.IsAny<AddStockRequest>(), It.IsAny<string>()))
             .Returns(new OkObjectResult("AddStock"));
 
-        mockStockServices.Setup(services => services.UpdateStock(It.IsAny<UpdateStockRequest>(), It.IsAny<string>()))
+        mockStockServices.Setup(services => services.Update(It.IsAny<UpdateStockRequest>(), It.IsAny<string>()))
             .Returns(new OkObjectResult("UpdateStock"));
 
-        mockStockServices.Setup(services => services.DeleteStock(It.IsAny<long>(), It.IsAny<string>()))
+        mockStockServices.Setup(services => services.DeleteById(It.IsAny<long>(), It.IsAny<string>()))
             .Returns(new OkObjectResult("DeleteStock"));
 
-        mockStockServices.Setup(services => services.GetStockById(It.IsAny<long>(), It.IsAny<string>()))
+        mockStockServices.Setup(services => services.GetById(It.IsAny<long>(), It.IsAny<string>()))
             .Returns( new OkObjectResult("GetStockById"));
 
         _mockStockServices = mockStockServices.Object;

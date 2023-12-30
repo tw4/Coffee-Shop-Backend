@@ -20,7 +20,7 @@ public class StockServices:IStockServices
         _logger = logger;
     }
 
-    public IActionResult AddStock(AddStockRequest request, string token)
+    public IActionResult Add(AddStockRequest request, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
         {
@@ -73,7 +73,7 @@ public class StockServices:IStockServices
         }
     }
 
-    public IActionResult UpdateStock(UpdateStockRequest request, string token)
+    public IActionResult Update(UpdateStockRequest request, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
         {
@@ -123,7 +123,7 @@ public class StockServices:IStockServices
        }
     }
 
-    public IActionResult DeleteStock(long id, string token)
+    public IActionResult DeleteById(long id, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
         {
@@ -154,7 +154,7 @@ public class StockServices:IStockServices
         }
     }
 
-    public IActionResult GetStockById(long id, string token)
+    public IActionResult GetById(long id, string token)
     {
         if (!_jwtServices.IsTokenValid(token))
         {
